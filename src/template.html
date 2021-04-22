@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body, html {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body {
+            background-color: #ffc430;
+            color: black;
+            font-family: 'PT Sans', sans-serif;
+        }
+
+        canvas {
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        img {
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+        }
+
+        #canvas_display {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .grow-shrink-width {
+            transition: max-width ease-in-out 1s;
+        }
+
+        #dev_area h1 {
+            font-size: 1.2em;
+        }
+
+        #dev_area h2 {
+            font-size: 1.1em;
+        }
+
+        #dev_area h3 {
+            font-size: 1em;
+        }
+
+        #dev_area h4 {
+            font-size: .9em;
+        }
+
+        #dev_area {
+            font-size: .8em;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="main" style="position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; margin: 0; padding: 0;">
+        <div id="click_catcher" style="position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; margin: 0; padding: 0;"></div>
+    </div>
+    <canvas id="canvas_low_res" width="1200" height="1000" style="image-rendering: pixelated;"></canvas>
+</body>
+</html>

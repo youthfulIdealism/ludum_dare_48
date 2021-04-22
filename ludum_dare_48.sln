@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "ludum_dare_48", "ludum_dare_48.njsproj", "{EEEB5118-B556-427D-892C-162F62F9327A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EEEB5118-B556-427D-892C-162F62F9327A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEEB5118-B556-427D-892C-162F62F9327A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEEB5118-B556-427D-892C-162F62F9327A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEEB5118-B556-427D-892C-162F62F9327A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C1A94F2-BE80-4DDD-9134-DCA85762542F}
+	EndGlobalSection
+EndGlobal
