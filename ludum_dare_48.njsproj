@@ -28,7 +28,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="src\template.html" />
-    <Content Include="index.html" />
     <Content Include="webpack.config.js" />
   </ItemGroup>
   <ItemGroup>

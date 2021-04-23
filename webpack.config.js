@@ -29,7 +29,7 @@ module.exports = function (env, argv) {
         devtool: 'eval-source-map',
         output: {
             filename: '[name].[contenthash].js',
-            path: path.resolve(__dirname, 'out'),
+            path: path.resolve(__dirname, 'docs'),
             library: '[name]',
         },
         entry: {
