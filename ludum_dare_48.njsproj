@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{eeeb5118-b556-427d-892c-162f62f9327a}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <StartupFile>webpack.config.js</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -19,7 +19,10 @@
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
     <Content Include="src\assets\bg.png" />
+    <Content Include="src\assets\sounds\test_sound.wav" />
     <Content Include="src\assets\stub.png" />
+    <Content Include="src\behaviors\behavior_click.js" />
+    <Content Include="src\behaviors\behavior_log.js" />
     <Content Include="src\behaviors\behavior_wasd.js">
       <SubType>Code</SubType>
     </Content>
@@ -33,6 +36,7 @@
   <ItemGroup>
     <Folder Include="src" />
     <Folder Include="src\assets\" />
+    <Folder Include="src\assets\sounds\" />
     <Folder Include="src\behaviors\" />
     <Folder Include="src\styles\" />
   </ItemGroup>

@@ -1,5 +1,7 @@
-import { Entity, SimSpace, Behavior, ImageRenderer, BlockRenderer, MaskRenderer, ChaseCamera, behavior_registry, renderer_registry, InputManager, WholeScreenRenderer, AnimationRenderer, Renderer } from 'yi-js-engine'
+import { Entity, SimSpace, Behavior, ImageRenderer, BlockRenderer, MaskRenderer, ChaseCamera, behavior_registry, renderer_registry, InputManager, WholeScreenRenderer, AnimationRenderer, Renderer, behavior_play_sound } from 'yi-js-engine'
 import './behaviors/behavior_wasd';
+import './behaviors/behavior_click';
+import './behaviors/behavior_log';
 
 import * as Victor from 'victor'
 const world_scale = 2;
@@ -63,6 +65,9 @@ let player = new Entity(Victor(0, 0), ['player']);
 camera.entity_id = player.id;
 world_space.add_entity(player);
 world_space.entity_add_event_listener(player, 'update', 'wasd', {});
+
+world_space.entity_add_event_listener(player, 'click', 'play_sound', { sounds: [{ path: './assets/sounds/test_sound.wav' }] });
+world_space.entity_add_event_listener(player, 'click', 'log', {text: 'hi there'});
 //player.render_data[image_renderer_id] = { image: './assets/stub.png' };
 player.render_data[mask_bg_renderer_id] = { image: './assets/stub.png' };
 
@@ -70,7 +75,11 @@ let box = new Entity(Victor(0, 0), []);
 world_space.add_entity(box);
 //world_space.entity_add_event_listener(player, 'update', 'wasd', {});
 //player.render_data[image_renderer_id] = { image: './assets/stub.png' };
-box.render_data[block_renderer_id] = { height: 60, width: 60};
+box.render_data[block_renderer_id] = { height: 60, width: 60 };
+
+let cursor = new Entity(Victor(0, 0), []);
+world_space.add_entity(cursor);
+world_space.entity_add_event_listener(cursor, 'update', 'click', {});
 
 
 function loop(timestamp) {
