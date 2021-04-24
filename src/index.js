@@ -2,6 +2,8 @@ import { Entity, SimSpace, Behavior, ImageRenderer, BlockRenderer, MaskRenderer,
 import './behaviors/behavior_wasd';
 import './behaviors/behavior_click';
 import './behaviors/behavior_log';
+import './behaviors/eat';
+import './behaviors/player_impact';
 
 import * as Victor from 'victor'
 const world_scale = 2;
@@ -64,20 +66,67 @@ init_world_space();
 let player = new Entity(Victor(0, 0), ['player']);
 camera.entity_id = player.id;
 world_space.add_entity(player);
-world_space.entity_add_event_listener(player, 'update', 'wasd', {});
-
+player.memory.animations = {
+    idle_0: {
+        frames: [
+            {
+                image: "./assets/player_0_idle_0.png",
+                duration: 50
+            }
+        ],
+        type: 'loop',
+    },
+    idle_1: {
+        frames: [
+            {
+                image: "./assets/player_1_idle_0.png",
+                duration: 50
+            }
+        ],
+        type: 'loop',
+    },
+    idle_2: {
+        frames: [
+            {
+                image: "./assets/player_2_idle_0.png",
+                duration: 50
+            }
+        ],
+        type: 'loop',
+    },
+    idle_3: {
+        frames: [
+            {
+                image: "./assets/player_3_idle_0.png",
+                duration: 50
+            }
+        ],
+        type: 'loop',
+    },
+}
+player.memory.animation = JSON.parse(JSON.stringify(player.memory.animations.idle_0));
+player.memory.size = 0;
+player.memory.width = 40;
+world_space.entity_add_event_listener(player, 'update', 'wasd', { speed: 16 });
 world_space.entity_add_event_listener(player, 'click', 'play_sound', { sounds: [{ path: './assets/sounds/test_sound.wav' }] });
-world_space.entity_add_event_listener(player, 'click', 'log', {text: 'hi there'});
+world_space.entity_add_event_listener(player, 'click', 'log', { text: 'hi there' });
+world_space.entity_add_event_listener(player, 'collide', 'eat', { amount: 1 });
 //player.render_data[image_renderer_id] = { image: './assets/stub.png' };
-player.render_data[mask_bg_renderer_id] = { image: './assets/stub.png' };
+player.render_data[render_animation_id] = { };
 
-let box = new Entity(Victor(0, 0), []);
+/*let box = new Entity(Victor(0, 0), []);
 world_space.add_entity(box);
-//world_space.entity_add_event_listener(player, 'update', 'wasd', {});
-//player.render_data[image_renderer_id] = { image: './assets/stub.png' };
-box.render_data[block_renderer_id] = { height: 60, width: 60 };
+box.render_data[block_renderer_id] = { height: 60, width: 60 };*/
 
-let cursor = new Entity(Victor(0, 0), []);
+for (let q = 0; q < 5; q++) {
+    let food = new Entity(Victor(100 + Math.random() * 400, 100 + Math.random() * 400), ['food']);
+    world_space.add_entity(food);
+    food.render_data[image_renderer_id] = { image: './assets/food_0.png' };
+    world_space.entity_add_event_listener(food, 'update', 'check_player_impact', {});
+}
+
+
+let cursor = new Entity(Victor(0, 0), ['cursor']);
 world_space.add_entity(cursor);
 world_space.entity_add_event_listener(cursor, 'update', 'click', {});
 

@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{eeeb5118-b556-427d-892c-162f62f9327a}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
     <StartupFile>webpack.config.js</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -18,9 +18,18 @@
   <ItemGroup>
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
+    <Content Include="src\assets\bell_0.png" />
     <Content Include="src\assets\bg.png" />
+    <Content Include="src\assets\food_0.png" />
+    <Content Include="src\assets\goblin.png" />
+    <Content Include="src\assets\player_0_idle_0.png" />
+    <Content Include="src\assets\player_1_idle_0.png" />
+    <Content Include="src\assets\player_2_idle_0.png" />
+    <Content Include="src\assets\player_3_idle_0.png" />
     <Content Include="src\assets\sounds\test_sound.wav" />
     <Content Include="src\assets\stub.png" />
+    <Content Include="src\behaviors\player_impact.js" />
+    <Content Include="src\behaviors\eat.js" />
     <Content Include="src\behaviors\behavior_click.js" />
     <Content Include="src\behaviors\behavior_log.js" />
     <Content Include="src\behaviors\behavior_wasd.js">
