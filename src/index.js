@@ -11,6 +11,10 @@ import './behaviors/behavior_update_blarg';
 import './behaviors/hit_by_charging_goblin';
 import './behaviors/behavior_immune_time';
 import './behaviors/behavior_food_float';
+import './behaviors/behavior_bell';
+import './behaviors/behavior_spawn_goblin';
+import './behaviors/behavior_spawn_food';
+import './behaviors/behavior_manage_food'
 
 import { RenderHealthBar } from './renderers/render_health_bar';
 import { RenderPlayerHealthBar } from './renderers/render_player_health_bar';
@@ -185,20 +189,7 @@ for (let q = 0; q < 5; q++) {
     world_space.entity_add_event_listener(food, 'update', 'check_player_impact', {});
     world_space.entity_add_event_listener(food, 'update', 'food_float', {});
 }
-
-for (let q = 0; q < 5; q++) {
-    let goblin = new Entity(Victor(1800 + 100 + Math.random() * 400, 1800 + 100 + Math.random() * 400), ['goblin', 'enemy']);
-    world_space.add_entity(goblin);
-    goblin.memory.health = 1;
-    goblin.memory.max_health = 1;
-    goblin.memory.state = 'chase';
-    goblin.render_data[image_renderer_id] = { image: './assets/goblin.png' };
-    goblin.render_data[render_health_bar_id] = {};
-    goblin.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: .5, offset_y: 35 };
-    world_space.entity_add_event_listener(goblin, 'update', 'goblin', { });
-    world_space.entity_add_event_listener(goblin, 'update', 'check_player_impact', {});
-}
-
+/*
 for (let q = 0; q < 3; q++) {
     let big_goblin = new Entity(Victor(1800 + 100 + Math.random() * 400, 1800 + 100 + Math.random() * 400), ['goblin', 'enemy']);
     world_space.add_entity(big_goblin);
@@ -212,7 +203,7 @@ for (let q = 0; q < 3; q++) {
     world_space.entity_add_event_listener(big_goblin, 'update', 'goblin', { state: 'chase' });
     world_space.entity_add_event_listener(big_goblin, 'update', 'check_player_impact', {});
 }
-
+*/
 let cursor = new Entity(Victor(0, 0), ['cursor']);
 world_space.add_entity(cursor);
 world_space.entity_add_event_listener(cursor, 'update', 'mouse_camera', {});
@@ -229,6 +220,8 @@ window.valid_max_y = 1800 + 1080 / 2;
 
 let bell = new Entity(Victor(1800, 1800), ['bell']);
 world_space.add_entity(bell);
+world_space.entity_add_event_listener(bell, 'update', 'bell', {});
+world_space.entity_add_event_listener(bell, 'update', 'manage_food', {});
 bell.render_data[image_renderer_id] = { image: './assets/bell_0.png' };
 bell.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: 2, offset_y: 25 };
 

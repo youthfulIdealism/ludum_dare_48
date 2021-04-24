@@ -47,6 +47,10 @@
     <Content Include="src\assets\stub.png" />
     <Content Include="src\assets\tiles.png" />
     <Content Include="src\assets\triangle_particle.png" />
+    <Content Include="src\behaviors\behavior_manage_food.js" />
+    <Content Include="src\behaviors\behavior_bell.js" />
+    <Content Include="src\behaviors\behavior_spawn_food.js" />
+    <Content Include="src\behaviors\behavior_spawn_goblin.js" />
     <Content Include="src\behaviors\behavior_immune_time.js" />
     <Content Include="src\behaviors\behavior_update_blarg.js" />
     <Content Include="src\behaviors\behavior_blarg.js" />
