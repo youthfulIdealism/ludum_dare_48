@@ -50,6 +50,7 @@
     <Content Include="src\behaviors\behavior_immune_time.js" />
     <Content Include="src\behaviors\behavior_update_blarg.js" />
     <Content Include="src\behaviors\behavior_blarg.js" />
+    <Content Include="src\behaviors\behavior_food_float.js" />
     <Content Include="src\behaviors\hit_by_charging_goblin.js" />
     <Content Include="src\behaviors\goblin.js" />
     <Content Include="src\behaviors\mouse_camera.js" />

@@ -10,7 +10,7 @@ import './behaviors/behavior_blarg';
 import './behaviors/behavior_update_blarg';
 import './behaviors/hit_by_charging_goblin';
 import './behaviors/behavior_immune_time';
-
+import './behaviors/behavior_food_float';
 
 import { RenderHealthBar } from './renderers/render_health_bar';
 import { RenderPlayerHealthBar } from './renderers/render_player_health_bar';
@@ -181,7 +181,9 @@ for (let q = 0; q < 5; q++) {
     let food = new Entity(Victor(1800 + 100 + Math.random() * 400, 1800 + 100 + Math.random() * 400), ['food']);
     world_space.add_entity(food);
     food.render_data[image_renderer_id] = { image: './assets/food_0.png' };
+    food.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: .5, offset_y: 35 };
     world_space.entity_add_event_listener(food, 'update', 'check_player_impact', {});
+    world_space.entity_add_event_listener(food, 'update', 'food_float', {});
 }
 
 for (let q = 0; q < 5; q++) {
