@@ -25,10 +25,15 @@ let behavior_wasd = new Behavior('wasd', (entity, sim_space, parameters, memory,
     if (input_manager.is_key_down('s')) { is_moving = true; direction.add(Victor(0, 1)); }
     if (input_manager.is_key_down('a')) { is_moving = true; direction.add(Victor(-1, 0)); entity.render_data['render-animation'].scale_x = -1; }
     if (input_manager.is_key_down('d')) { is_moving = true; direction.add(Victor(1, 0)); entity.render_data['render-animation'].scale_x = 1; }
-
-    console.log(entity.render_data['render-animation'].scale_x)
     
     if (is_moving) {
+        if (entity.memory.animation !== entity.memory.animations[`run_${entity.memory.size}`] && entity.memory.animations[`run_${entity.memory.size}`]) {
+            entity.memory.animation = entity.memory.animations[`run_${entity.memory.size}`];
+            entity.memory.animation_progress = 0;
+            entity.memory.animation_current_frame = 0;
+        }
+        
+
         let potential_location = entity.location.clone().add(direction.normalize().multiply(Victor(tpf, tpf)).multiply(Victor(parameters.speed, parameters.speed)))
         if (window.in_bounds(potential_location)) {
             entity.location = potential_location;
@@ -62,5 +67,3 @@ let behavior_wasd = new Behavior('wasd', (entity, sim_space, parameters, memory,
     return false;
 
 }, { 'speed': 'number' });
-
-console.log('Loaded')

@@ -24,11 +24,12 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
     scale_accum += tpf;
 
     //generate render direction
-    let start_loc = player.location.clone();
+    let start_loc = player.location.clone().add(Victor(0, -15));
     let direction = target_location.clone().subtract(start_loc).normalize();
     entity.location = start_loc;
     entity.render_data['mask-renderer-bg'].rotation = direction.angle() - (Math.PI / 2) * 3;
     entity.render_data['mask-renderer-bg'].scale_x = (parameters.size / 4) + (1 + Math.sin(scale_accum * .5)) * .05;
+    if (parameters.size == 1) { entity.render_data['mask-renderer-bg'].scale_x *= .5}
     entity.render_data['mask-renderer-bg'].scale_y = 1;
 
     //keep player from moving very fast
@@ -53,6 +54,8 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
             player.memory.animation = player.memory.animations[`idle_${player.memory.size}`];
         }
     }
+
+    window.shake.shake(600 * (parameters.size / 4), 1);
 
     let damage_check_location = start_loc.clone();
     let damage_check_interval = 30;

@@ -62,6 +62,31 @@ let world_space;
 let camera = new ChaseCamera(Victor(0, 0), 'empty');
 camera.zoom = world_scale;
 window.camera = camera;
+
+const camera_shake_switch_time = .5;
+window.shake = {
+    current_offset: Victor(0, 0),
+    target_offset: Victor(0, 0),
+    remaining_until_switch: 0,
+    remaining_violence: 5,
+    remaining_duration: 0,
+    shake(violence, duration) {
+        this.remaining_violence = Math.max(this.remaining_violence, violence);
+        this.remaining_duration = Math.max(this.remaining_duration, duration);
+    },
+    update(tpf) {
+        this.remaining_duration -= tpf;
+        this.remaining_violence *= .99;
+        this.remaining_until_switch -= tpf;
+        if (this.remaining_duration <= 0) { this.current_offset = Victor(0, 0); return; }
+        this.current_offset.mix(this.target_offset, .1)
+        if (this.remaining_until_switch <= 0) {
+            this.remaining_until_switch = camera_shake_switch_time;
+            this.target_offset = Victor(Math.random() - .5, Math.random() - .5).multiply(Victor(this.remaining_violence, this.remaining_violence))
+        }
+    }
+}
+
 let map_background_renderer = new WholeScreenRenderer(render_map_background_id, (sim_space) => { }, './assets/tiles.png', true)
 let block_renderer = new BlockRenderer(block_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[block_renderer_id] !== undefined); });
 let shadow_renderer = new ImageRenderer('render_shadow', (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data['render_shadow'] !== undefined); });
@@ -113,6 +138,43 @@ player.memory.animations = {
             {
                 image: "./assets/player_0_idle_1.png",
                 duration: 4
+            },
+        ],
+        type: 'loop',
+    },
+    run_0: {
+        frames: [
+            {
+                image: "./assets/player_0_run_0.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_0_run_1.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_0_run_2.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_0_run_3.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_0_run_4.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_0_run_5.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_0_run_6.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_0_run_7.png",
+                duration: 1
             },
         ],
         type: 'loop',
@@ -245,6 +307,9 @@ function loop(timestamp) {
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+
+    window.shake.update(tpf);
+    camera.location.add(window.shake.current_offset);
 
     world_space.draw(tpf, canvas);
 

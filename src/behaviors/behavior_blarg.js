@@ -18,5 +18,3 @@ let behavior_blarg = new Behavior('blarg', (entity, sim_space, parameters, memor
     }
 
 }, {});
-
-console.log('Loaded')
