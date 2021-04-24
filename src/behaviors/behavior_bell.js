@@ -4,15 +4,21 @@ import * as Victor from 'victor'
 let current_wave_index = 0;
 let waves = [
     {
-        goblins: 3
+        goblins: 3,
+        spitting_goblins: 4
     },
     {
         goblins: 4,
         big_goblins: 1
     },
     {
-        goblins: 4,
+        goblins: 6,
         big_goblins: 4
+    },
+    {
+        goblins: 3,
+        big_goblins: 2,
+        spitting_goblins: 4
     },
 ]
 
@@ -43,6 +49,16 @@ let behavior_bell = new Behavior('bell', (entity, sim_space, parameters, memory,
             world_space.entity_add_event_listener(spawner, 'update', 'spawn_big_goblin', {});
         }
     }
+
+    if (current_wave.spitting_goblins) {
+        for (let q = 0; q < current_wave.spitting_goblins; q++) {
+            let spawner = new Entity(Victor(0, 0), ['enemy_spawner']);
+            world_space.add_entity(spawner);
+            world_space.entity_add_event_listener(spawner, 'update', 'spawn_spitting_goblin', {});
+        }
+    }
+
+    
 
     current_wave_index++;
 }, {});

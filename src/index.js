@@ -16,6 +16,9 @@ import './behaviors/behavior_spawn_goblin';
 import './behaviors/behavior_spawn_big_goblin';
 import './behaviors/behavior_spawn_food';
 import './behaviors/behavior_manage_food'
+import './behaviors/behavior_spawn_spitting_goblin'
+import './behaviors/spitting_goblin'
+import './behaviors/projectile'
 
 import { RenderHealthBar } from './renderers/render_health_bar';
 import { RenderPlayerHealthBar } from './renderers/render_player_health_bar';
