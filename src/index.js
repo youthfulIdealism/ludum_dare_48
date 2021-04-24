@@ -10,6 +10,7 @@ import './behaviors/behavior_blarg';
 import './behaviors/behavior_update_blarg';
 
 import { RenderHealthBar } from './renderers/render_health_bar';
+import { RenderPlayerHealthBar } from './renderers/render_player_health_bar';
 
 import * as Victor from 'victor'
 const world_scale = 2;
@@ -43,6 +44,7 @@ const block_renderer_id = 'block-renderer';
 const mask_bg_renderer_id = 'mask-renderer-bg';
 const render_animation_id = 'render-animation';
 const render_health_bar_id = 'render-health-bar';
+const render_player_bar_id = 'render-player-health-bar';
 
 let input_manager;
 let world_space;
@@ -55,6 +57,8 @@ let image_renderer = new ImageRenderer(image_renderer_id, (sim_space) => { retur
 let mask_renderer = new MaskRenderer(mask_bg_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[mask_bg_renderer_id] !== undefined); }, './assets/bg.png', true)
 let animation_renderer = new AnimationRenderer(render_animation_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[render_animation_id] !== undefined); })
 let health_bar_renderer = new RenderHealthBar(render_health_bar_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[render_health_bar_id] !== undefined); })
+let player_health_bar_renderer = new RenderPlayerHealthBar(render_player_bar_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[render_player_bar_id] !== undefined); })
+
 
 function init_world_space() {
     world_space = new SimSpace();
@@ -63,6 +67,7 @@ function init_world_space() {
     world_space.push_renderer(image_renderer, camera);
     world_space.push_renderer(block_renderer, camera);
     world_space.push_renderer(health_bar_renderer, camera);
+    world_space.push_renderer(player_health_bar_renderer, camera);
     
     window.world_space = world_space;
     if (input_manager) { input_manager.destroy(); }
@@ -118,12 +123,15 @@ window.player_speed_settings = [16, 10, 5, 3];
 player.memory.animation = JSON.parse(JSON.stringify(player.memory.animations.idle_0));
 player.memory.size = 0;
 player.memory.width = 40;
+player.memory.health = 4;
+player.memory.max_health = 4;
 world_space.entity_add_event_listener(player, 'update', 'wasd', { speed: 16 });
 world_space.entity_add_event_listener(player, 'update', 'blarg', {});
 world_space.entity_add_event_listener(player, 'click', 'play_sound', { sounds: [{ path: './assets/sounds/test_sound.wav' }] });
 world_space.entity_add_event_listener(player, 'click', 'log', { text: 'hi there' });
 world_space.entity_add_event_listener(player, 'collide', 'eat', { amount: 1 });
-player.render_data[render_animation_id] = { };
+player.render_data[render_animation_id] = {};
+player.render_data[render_player_bar_id] = {};
 /*let box = new Entity(Victor(0, 0), []);
 world_space.add_entity(box);
 box.render_data[block_renderer_id] = { height: 60, width: 60 };*/

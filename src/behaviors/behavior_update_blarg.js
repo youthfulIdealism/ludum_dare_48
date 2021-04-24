@@ -27,8 +27,9 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
     let direction = target_location.clone().subtract(start_loc).normalize();
     entity.location = start_loc;
     entity.render_data['mask-renderer-bg'].rotation = direction.angle() - (Math.PI / 2) * 3;
+    entity.render_data['mask-renderer-bg'].scale_y = 1;
 
-    //keep player from moving bery fast
+    //keep player from moving very fast
     player.event_listeners.update.wasd.speed = 2;
 
     //tick down until damage time
@@ -55,11 +56,13 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
     let damage_check_interval = 30;
     let damage_check_adder = direction.clone().multiply(Victor(damage_check_interval, damage_check_interval));
     for (let q = 0; q < 1920 / 2; q += damage_check_interval) {
+        let is_blocked = false;
         for (let enemy of enemies) {
             if (damage_check_location.distance(enemy.location) < 40) {
+                is_blocked = true;
+
+                //deal damage
                 if (is_damage_tick) {
-                    //deal damage
-                    
                     if (enemy.memory.armor === undefined || parameters.size >= enemy.memory.armor) {
                         enemy.memory.health--;
                     }
@@ -71,9 +74,34 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
                 }
             }
         }
+        if (is_blocked) {
+
+            for (let q = 0; q < 4; q++) {
+                let particle = new Entity(damage_check_location.clone(), []);
+                world_space.add_entity(particle);
+                world_space.entity_add_event_listener(particle, 'update', 'particle', {
+                    'renderer': 'mask-renderer-bg',
+                    'start_scale': .7,
+                    'end_scale': .4,
+                    'start_opacity': 1,
+                    'end_opacity': 1,
+                    'start_rotation': 0,
+                    'end_rotation': 30 * (Math.random() > .5 ? 1 : -1) * Math.random(),
+                    'direction': damage_check_adder.clone().normalize().multiply(Victor(-1, -1)).rotateBy((Math.random() - .5) * 2),
+                    'velocity': 7,
+                    'acceleration': 1 - .07,
+                    'duration': 25 + Math.random() * 50,
+                });
+                particle.render_data['mask-renderer-bg'] = { image: './assets/triangle_particle.png' };
+                console.log(particle)
+            }
+
+
+            console.log('break');
+            break;
+        }
+
         damage_check_location.add(damage_check_adder)
     }
 
 }, {});
-
-console.log('Loaded')
