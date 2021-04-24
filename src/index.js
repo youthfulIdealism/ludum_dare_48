@@ -93,8 +93,20 @@ player.memory.animations = {
         frames: [
             {
                 image: "./assets/player_0_idle_0.png",
-                duration: 50
-            }
+                duration: 4
+            },
+            {
+                image: "./assets/player_0_idle_1.png",
+                duration: 4
+            },
+            {
+                image: "./assets/player_0_idle_2.png",
+                duration: 4
+            },
+            {
+                image: "./assets/player_0_idle_1.png",
+                duration: 4
+            },
         ],
         type: 'loop',
     },
@@ -102,8 +114,20 @@ player.memory.animations = {
         frames: [
             {
                 image: "./assets/player_1_idle_0.png",
-                duration: 50
-            }
+                duration: 4
+            },
+            {
+                image: "./assets/player_1_idle_1.png",
+                duration: 4
+            },
+            {
+                image: "./assets/player_1_idle_2.png",
+                duration: 4
+            },
+            {
+                image: "./assets/player_1_idle_1.png",
+                duration: 4
+            },
         ],
         type: 'loop',
     },

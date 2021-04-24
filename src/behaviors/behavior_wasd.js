@@ -23,10 +23,10 @@ let behavior_wasd = new Behavior('wasd', (entity, sim_space, parameters, memory,
 
     if (input_manager.is_key_down('w')) { is_moving = true; direction.add(Victor(0, -1)); }
     if (input_manager.is_key_down('s')) { is_moving = true; direction.add(Victor(0, 1)); }
-    if (input_manager.is_key_down('a')) { is_moving = true; direction.add(Victor(-1, 0)); }
-    if (input_manager.is_key_down('d')) { is_moving = true; direction.add(Victor(1, 0)); }
+    if (input_manager.is_key_down('a')) { is_moving = true; direction.add(Victor(-1, 0)); entity.render_data['render-animation'].scale_x = -1; }
+    if (input_manager.is_key_down('d')) { is_moving = true; direction.add(Victor(1, 0)); entity.render_data['render-animation'].scale_x = 1; }
 
-
+    console.log(entity.render_data['render-animation'].scale_x)
     
     if (is_moving) {
         entity.location.add(direction.normalize().multiply(Victor(tpf, tpf)).multiply(Victor(parameters.speed, parameters.speed)));

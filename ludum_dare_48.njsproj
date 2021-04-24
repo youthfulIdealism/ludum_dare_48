@@ -28,6 +28,8 @@
     <Content Include="src\assets\particle_attack_indicator.png" />
     <Content Include="src\assets\particle_dust.png" />
     <Content Include="src\assets\player_0_idle_0.png" />
+    <Content Include="src\assets\player_0_idle_1.png" />
+    <Content Include="src\assets\player_0_idle_2.png" />
     <Content Include="src\assets\player_1_idle_0.png" />
     <Content Include="src\assets\player_2_idle_0.png" />
     <Content Include="src\assets\player_3_idle_0.png" />
@@ -38,6 +40,7 @@
     <Content Include="src\assets\sounds\player_3_step.wav" />
     <Content Include="src\assets\sounds\test_sound.wav" />
     <Content Include="src\assets\stub.png" />
+    <Content Include="src\assets\tiles.png" />
     <Content Include="src\assets\triangle_particle.png" />
     <Content Include="src\behaviors\behavior_immune_time.js" />
     <Content Include="src\behaviors\behavior_update_blarg.js" />
