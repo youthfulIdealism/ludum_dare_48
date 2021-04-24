@@ -88,7 +88,7 @@ function init_world_space() {
 
 init_world_space();
 
-let player = new Entity(Victor(1800, 1800), ['player']);
+let player = new Entity(Victor(1600, 1800), ['player']);
 world_space.add_entity(player);
 player.memory.animations = {
     idle_0: {
@@ -224,6 +224,12 @@ window.valid_min_x = 1800 - 1080 / 2;
 window.valid_min_y = 1800 - 1080 / 2;
 window.valid_max_x = 1800 + 1080 / 2;
 window.valid_max_y = 1800 + 1080 / 2;
+
+let bell = new Entity(Victor(1800, 1800), ['bell']);
+world_space.add_entity(bell);
+bell.render_data[image_renderer_id] = { image: './assets/bell_0.png' };
+bell.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: 2, offset_y: 25 };
+
 window.in_bounds = function (location) {
     return location.x >= window.valid_min_x &&
         location.y >= window.valid_min_y &&
