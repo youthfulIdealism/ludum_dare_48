@@ -42,6 +42,7 @@ function within(x, test, tolerance) {
 let canvas = document.getElementById('canvas_low_res');
 window.canvas = canvas;
 
+const render_map_background_id = 'map-background';
 const image_renderer_id = 'image-renderer';
 const block_renderer_id = 'block-renderer';
 const mask_bg_renderer_id = 'mask-renderer-bg';
@@ -56,6 +57,7 @@ let world_space;
 let camera = new ChaseCamera(Victor(0, 0), 'empty');
 camera.zoom = world_scale;
 window.camera = camera;
+let map_background_renderer = new WholeScreenRenderer(render_map_background_id, (sim_space) => { }, './assets/tiles.png', true)
 let block_renderer = new BlockRenderer(block_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[block_renderer_id] !== undefined); });
 let image_renderer = new ImageRenderer(image_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[image_renderer_id] !== undefined); });
 let attack_renderer = new MaskRenderer(attack_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[attack_renderer_id] !== undefined); }, './assets/bg_attack.png', false)
@@ -67,6 +69,7 @@ let player_health_bar_renderer = new RenderPlayerHealthBar(render_player_bar_id,
 
 function init_world_space() {
     world_space = new SimSpace();
+    world_space.push_renderer(map_background_renderer, camera);
     world_space.push_renderer(attack_renderer, camera);
     world_space.push_renderer(mask_renderer, camera);
     world_space.push_renderer(animation_renderer, camera);
@@ -83,7 +86,7 @@ function init_world_space() {
 
 init_world_space();
 
-let player = new Entity(Victor(0, 0), ['player']);
+let player = new Entity(Victor(1800, 1800), ['player']);
 world_space.add_entity(player);
 player.memory.animations = {
     idle_0: {
@@ -146,14 +149,14 @@ world_space.add_entity(box);
 box.render_data[block_renderer_id] = { height: 60, width: 60 };*/
 
 for (let q = 0; q < 5; q++) {
-    let food = new Entity(Victor(100 + Math.random() * 400, 100 + Math.random() * 400), ['food']);
+    let food = new Entity(Victor(1800 + 100 + Math.random() * 400, 1800 + 100 + Math.random() * 400), ['food']);
     world_space.add_entity(food);
     food.render_data[image_renderer_id] = { image: './assets/food_0.png' };
     world_space.entity_add_event_listener(food, 'update', 'check_player_impact', {});
 }
 
 for (let q = 0; q < 5; q++) {
-    let goblin = new Entity(Victor(100 + Math.random() * 400, 100 + Math.random() * 400), ['goblin', 'enemy']);
+    let goblin = new Entity(Victor(1800 + 100 + Math.random() * 400, 1800 + 100 + Math.random() * 400), ['goblin', 'enemy']);
     world_space.add_entity(goblin);
     goblin.memory.health = 1;
     goblin.memory.max_health = 1;
@@ -165,7 +168,7 @@ for (let q = 0; q < 5; q++) {
 }
 
 for (let q = 0; q < 3; q++) {
-    let big_goblin = new Entity(Victor(100 + Math.random() * 400, 100 + Math.random() * 400), ['goblin', 'enemy']);
+    let big_goblin = new Entity(Victor(1800 + 100 + Math.random() * 400, 1800 + 100 + Math.random() * 400), ['goblin', 'enemy']);
     world_space.add_entity(big_goblin);
     big_goblin.memory.health = 1;
     big_goblin.memory.max_health = 1;
