@@ -8,13 +8,14 @@ let behavior_blarg = new Behavior('blarg', (entity, sim_space, parameters, memor
     let mouse_location = input_manager.mouse.location;
     let world_location = window.camera.screen_location_to_world_location(window.canvas, mouse_location.clone()).clone();
 
-    let size = entity.size;
-    let other_blargs = sim_space.sim_space.get_entities_with_tag('blarg');
+    let size = entity.memory.size;
+    let other_blargs = sim_space.get_entities_with_tag('blarg');
+    //console.log(`${input_manager.mouse.mouse1.went_down} ${size} && ${other_blargs.length}`)
     if (input_manager.mouse.mouse1.went_down && size > 0 && other_blargs.length <= 0) {
-
-        let blarg = new Entity(player.location.clone(), ['blarg']);
+        let blarg = new Entity(entity.location.clone(), ['blarg']);
         world_space.add_entity(blarg);
-        world_space.entity_add_event_listener(blarg, 'update', 'update_blarg', { size: entity.size, target: world_location });
+        world_space.entity_add_event_listener(blarg, 'update', 'update_blarg', { size: entity.memory.size, target: world_location });
+        blarg.render_data['mask-renderer-bg'] = { image: './assets/blarg.png' };
     }
 
 }, {});

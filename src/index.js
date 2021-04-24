@@ -6,6 +6,8 @@ import './behaviors/eat';
 import './behaviors/player_impact';
 import './behaviors/mouse_camera';
 import './behaviors/goblin';
+import './behaviors/behavior_blarg';
+import './behaviors/behavior_update_blarg';
 
 import * as Victor from 'victor'
 const world_scale = 2;
@@ -105,15 +107,18 @@ player.memory.animations = {
         type: 'loop',
     },
 }
+
+window.player_speed_settings = [16, 10, 5, 3];
+
 player.memory.animation = JSON.parse(JSON.stringify(player.memory.animations.idle_0));
 player.memory.size = 0;
 player.memory.width = 40;
 world_space.entity_add_event_listener(player, 'update', 'wasd', { speed: 16 });
+world_space.entity_add_event_listener(player, 'update', 'blarg', {});
 world_space.entity_add_event_listener(player, 'click', 'play_sound', { sounds: [{ path: './assets/sounds/test_sound.wav' }] });
 world_space.entity_add_event_listener(player, 'click', 'log', { text: 'hi there' });
 world_space.entity_add_event_listener(player, 'collide', 'eat', { amount: 1 });
 player.render_data[render_animation_id] = { };
-
 /*let box = new Entity(Victor(0, 0), []);
 world_space.add_entity(box);
 box.render_data[block_renderer_id] = { height: 60, width: 60 };*/
@@ -126,7 +131,7 @@ for (let q = 0; q < 5; q++) {
 }
 
 for (let q = 0; q < 5; q++) {
-    let goblin = new Entity(Victor(100 + Math.random() * 400, 100 + Math.random() * 400), ['goblin']);
+    let goblin = new Entity(Victor(100 + Math.random() * 400, 100 + Math.random() * 400), ['goblin', 'enemy']);
     world_space.add_entity(goblin);
     goblin.render_data[image_renderer_id] = { image: './assets/goblin.png' };
     world_space.entity_add_event_listener(goblin, 'update', 'goblin', {});

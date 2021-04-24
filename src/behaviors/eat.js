@@ -10,7 +10,7 @@ let behavior_eat = new Behavior('eat', (entity, sim_space, parameters, memory, c
         entity.memory.animation = entity.memory.animations[`idle_${entity.memory.size}`];
         console.log(`idle_${entity.memory.size}`)
         console.log(entity.memory.animations[`idle_${entity.memory.size}`])
-        entity.event_listeners.update.wasd.speed = [16, 10, 5, 3][entity.memory.size]
+        entity.event_listeners.update.wasd.speed = window.player_speed_settings[entity.memory.size]
         entity.memory.animation_progress = 0;
     }
 });

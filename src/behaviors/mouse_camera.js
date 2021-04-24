@@ -8,5 +8,5 @@ let behavior_mouse_camera = new Behavior('mouse_camera', (entity, sim_space, par
 
     let player = sim_space.get_entities_with_tag('player')[0];
     let player_distance = 60;
-    entity.location = player.location.clone().add(world_location.clone().subtract(player.location).normalize().multiply(Victor(player_distance, player_distance)))
+    entity.location.mix(player.location.clone().add(world_location.clone().subtract(player.location).normalize().multiply(Victor(player_distance, player_distance))), .07);
 });
