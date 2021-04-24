@@ -29,6 +29,7 @@
     <Content Include="src\assets\particle_attack_circle.png" />
     <Content Include="src\assets\particle_attack_indicator.png" />
     <Content Include="src\assets\particle_dust.png" />
+    <Content Include="src\assets\particle_sparkle.png" />
     <Content Include="src\assets\player_0_idle_0.png" />
     <Content Include="src\assets\player_0_idle_1.png" />
     <Content Include="src\assets\player_0_idle_2.png" />
@@ -50,6 +51,7 @@
     <Content Include="src\behaviors\behavior_manage_food.js" />
     <Content Include="src\behaviors\behavior_bell.js" />
     <Content Include="src\behaviors\behavior_spawn_food.js" />
+    <Content Include="src\behaviors\behavior_spawn_big_goblin.js" />
     <Content Include="src\behaviors\behavior_spawn_goblin.js" />
     <Content Include="src\behaviors\behavior_immune_time.js" />
     <Content Include="src\behaviors\behavior_update_blarg.js" />

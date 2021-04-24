@@ -13,6 +13,7 @@ import './behaviors/behavior_immune_time';
 import './behaviors/behavior_food_float';
 import './behaviors/behavior_bell';
 import './behaviors/behavior_spawn_goblin';
+import './behaviors/behavior_spawn_big_goblin';
 import './behaviors/behavior_spawn_food';
 import './behaviors/behavior_manage_food'
 

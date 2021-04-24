@@ -35,7 +35,9 @@ let behavior_bell = new Behavior('bell', (entity, sim_space, parameters, memory,
 
     if (current_wave.big_goblins) {
         for (let q = 0; q < current_wave.big_goblins; q++) {
-
+            let spawner = new Entity(Victor(0, 0), ['enemy_spawner']);
+            world_space.add_entity(spawner);
+            world_space.entity_add_event_listener(spawner, 'update', 'spawn_big_goblin', {});
         }
     }
 
