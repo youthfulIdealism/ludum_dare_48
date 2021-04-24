@@ -37,7 +37,39 @@ let spawn_goblin = new Behavior('spawn_big_goblin', (entity, sim_space, paramete
         big_goblin.memory.max_health = 1;
         big_goblin.memory.armor = 2;
         big_goblin.memory.state = 'chase';
-        big_goblin.render_data['image-renderer'] = { image: './assets/shield_goblin.png' };
+        big_goblin.memory.animations = {
+            run: {
+                frames: [
+                    {
+                        image: "./assets/shield_goblin_run_0.png",
+                        duration: 2
+                    },
+                    {
+                        image: "./assets/shield_goblin_run_1.png",
+                        duration: 2
+                    },
+                    {
+                        image: "./assets/shield_goblin_run_2.png",
+                        duration: 3
+                    },
+                    {
+                        image: "./assets/shield_goblin_run_3.png",
+                        duration: 3
+                    },
+                    {
+                        image: "./assets/shield_goblin_run_4.png",
+                        duration: 2
+                    },
+                    {
+                        image: "./assets/shield_goblin_run_5.png",
+                        duration: 2
+                    },
+                ],
+                type: 'loop',
+            },
+        }
+        big_goblin.memory.animation = big_goblin.memory.animations.run;
+        big_goblin.render_data['render-animation'] = {};
         big_goblin.render_data['render-health-bar'] = {};
         big_goblin.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: .7, offset_y: 30 };
         world_space.entity_add_event_listener(big_goblin, 'update', 'goblin', { state: 'chase' });

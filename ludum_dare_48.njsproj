@@ -122,6 +122,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="src\index.js" />
+    <Content Include="src\renderers\render_decals.js" />
     <Content Include="src\renderers\render_player_health_bar.js" />
     <Content Include="src\renderers\render_health_bar.js">
       <SubType>Code</SubType>

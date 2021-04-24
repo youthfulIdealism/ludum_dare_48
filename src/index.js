@@ -318,7 +318,6 @@ player.memory.max_health = 4;
 world_space.entity_add_event_listener(player, 'update', 'wasd', { speed: 16 });
 world_space.entity_add_event_listener(player, 'update', 'blarg', {});
 world_space.entity_add_event_listener(player, 'update', 'immune_time', {});
-world_space.entity_add_event_listener(player, 'click', 'play_sound', { sounds: [{ path: './assets/sounds/test_sound.wav' }] });
 world_space.entity_add_event_listener(player, 'click', 'log', { text: 'hi there' });
 world_space.entity_add_event_listener(player, 'collide', 'eat', { amount: 1 });
 world_space.entity_add_event_listener(player, 'collide', 'hit_by_charging_goblin', { });
