@@ -58,10 +58,10 @@ let health_bar_renderer = new RenderHealthBar(render_health_bar_id, (sim_space) 
 
 function init_world_space() {
     world_space = new SimSpace();
+    world_space.push_renderer(mask_renderer, camera);
     world_space.push_renderer(animation_renderer, camera);
     world_space.push_renderer(image_renderer, camera);
     world_space.push_renderer(block_renderer, camera);
-    world_space.push_renderer(mask_renderer, camera);
     world_space.push_renderer(health_bar_renderer, camera);
     
     window.world_space = world_space;
@@ -139,6 +139,7 @@ for (let q = 0; q < 5; q++) {
     let goblin = new Entity(Victor(100 + Math.random() * 400, 100 + Math.random() * 400), ['goblin', 'enemy']);
     world_space.add_entity(goblin);
     goblin.memory.health = 1;
+    goblin.memory.max_health = 1;
     goblin.render_data[image_renderer_id] = { image: './assets/goblin.png' };
     goblin.render_data[render_health_bar_id] = {};
     world_space.entity_add_event_listener(goblin, 'update', 'goblin', {});
@@ -148,6 +149,7 @@ for (let q = 0; q < 3; q++) {
     let big_goblin = new Entity(Victor(100 + Math.random() * 400, 100 + Math.random() * 400), ['goblin', 'enemy']);
     world_space.add_entity(big_goblin);
     big_goblin.memory.health = 1;
+    big_goblin.memory.max_health = 1;
     big_goblin.memory.armor = 2;
     big_goblin.render_data[image_renderer_id] = { image: './assets/shield_goblin.png' };
     big_goblin.render_data[render_health_bar_id] = {};

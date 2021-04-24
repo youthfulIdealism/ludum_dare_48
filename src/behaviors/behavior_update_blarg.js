@@ -59,7 +59,15 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
             if (damage_check_location.distance(enemy.location) < 40) {
                 if (is_damage_tick) {
                     //deal damage
-                    sim_space.remove_entity(enemy);
+                    
+                    if (enemy.memory.armor === undefined || parameters.size >= enemy.memory.armor) {
+                        enemy.memory.health--;
+                    }
+
+                    if (enemy.memory.health <= 0) {
+                        sim_space.remove_entity(enemy);
+                    }
+                    
                 }
             }
         }
