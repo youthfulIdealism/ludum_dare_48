@@ -97,11 +97,7 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
                     'duration': 25 + Math.random() * 50,
                 });
                 particle.render_data['mask-renderer-bg'] = { image: './assets/triangle_particle.png' };
-                console.log(particle)
             }
-
-
-            console.log('break');
             break;
         }
 

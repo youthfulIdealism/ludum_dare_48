@@ -9,4 +9,5 @@ let check_player_impact = new Behavior('check_player_impact', (entity, sim_space
             sim_space.fire_event('collide', { entities: [entity, player] })
         }
     }
+    return false;
 });

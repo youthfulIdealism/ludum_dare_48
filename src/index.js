@@ -8,6 +8,9 @@ import './behaviors/mouse_camera';
 import './behaviors/goblin';
 import './behaviors/behavior_blarg';
 import './behaviors/behavior_update_blarg';
+import './behaviors/hit_by_charging_goblin';
+import './behaviors/behavior_immune_time';
+
 
 import { RenderHealthBar } from './renderers/render_health_bar';
 import { RenderPlayerHealthBar } from './renderers/render_player_health_bar';
@@ -42,6 +45,7 @@ window.canvas = canvas;
 const image_renderer_id = 'image-renderer';
 const block_renderer_id = 'block-renderer';
 const mask_bg_renderer_id = 'mask-renderer-bg';
+const attack_renderer_id = 'attack-renderer';
 const render_animation_id = 'render-animation';
 const render_health_bar_id = 'render-health-bar';
 const render_player_bar_id = 'render-player-health-bar';
@@ -54,6 +58,7 @@ camera.zoom = world_scale;
 window.camera = camera;
 let block_renderer = new BlockRenderer(block_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[block_renderer_id] !== undefined); });
 let image_renderer = new ImageRenderer(image_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[image_renderer_id] !== undefined); });
+let attack_renderer = new MaskRenderer(attack_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[attack_renderer_id] !== undefined); }, './assets/bg_attack.png', false)
 let mask_renderer = new MaskRenderer(mask_bg_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[mask_bg_renderer_id] !== undefined); }, './assets/bg.png', true)
 let animation_renderer = new AnimationRenderer(render_animation_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[render_animation_id] !== undefined); })
 let health_bar_renderer = new RenderHealthBar(render_health_bar_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[render_health_bar_id] !== undefined); })
@@ -62,6 +67,7 @@ let player_health_bar_renderer = new RenderPlayerHealthBar(render_player_bar_id,
 
 function init_world_space() {
     world_space = new SimSpace();
+    world_space.push_renderer(attack_renderer, camera);
     world_space.push_renderer(mask_renderer, camera);
     world_space.push_renderer(animation_renderer, camera);
     world_space.push_renderer(image_renderer, camera);
@@ -119,6 +125,7 @@ player.memory.animations = {
 }
 
 window.player_speed_settings = [16, 10, 5, 3];
+window.player_immune_time = 25;
 
 player.memory.animation = JSON.parse(JSON.stringify(player.memory.animations.idle_0));
 player.memory.size = 0;
@@ -127,9 +134,11 @@ player.memory.health = 4;
 player.memory.max_health = 4;
 world_space.entity_add_event_listener(player, 'update', 'wasd', { speed: 16 });
 world_space.entity_add_event_listener(player, 'update', 'blarg', {});
+world_space.entity_add_event_listener(player, 'update', 'immune_time', {});
 world_space.entity_add_event_listener(player, 'click', 'play_sound', { sounds: [{ path: './assets/sounds/test_sound.wav' }] });
 world_space.entity_add_event_listener(player, 'click', 'log', { text: 'hi there' });
 world_space.entity_add_event_listener(player, 'collide', 'eat', { amount: 1 });
+world_space.entity_add_event_listener(player, 'collide', 'hit_by_charging_goblin', { });
 player.render_data[render_animation_id] = {};
 player.render_data[render_player_bar_id] = {};
 /*let box = new Entity(Victor(0, 0), []);
@@ -148,9 +157,11 @@ for (let q = 0; q < 5; q++) {
     world_space.add_entity(goblin);
     goblin.memory.health = 1;
     goblin.memory.max_health = 1;
+    goblin.memory.state = 'chase';
     goblin.render_data[image_renderer_id] = { image: './assets/goblin.png' };
     goblin.render_data[render_health_bar_id] = {};
-    world_space.entity_add_event_listener(goblin, 'update', 'goblin', {});
+    world_space.entity_add_event_listener(goblin, 'update', 'goblin', { });
+    world_space.entity_add_event_listener(goblin, 'update', 'check_player_impact', {});
 }
 
 for (let q = 0; q < 3; q++) {
@@ -159,9 +170,11 @@ for (let q = 0; q < 3; q++) {
     big_goblin.memory.health = 1;
     big_goblin.memory.max_health = 1;
     big_goblin.memory.armor = 2;
+    big_goblin.memory.state = 'chase';
     big_goblin.render_data[image_renderer_id] = { image: './assets/shield_goblin.png' };
     big_goblin.render_data[render_health_bar_id] = {};
-    world_space.entity_add_event_listener(big_goblin, 'update', 'goblin', {});
+    world_space.entity_add_event_listener(big_goblin, 'update', 'goblin', { state: 'chase' });
+    world_space.entity_add_event_listener(big_goblin, 'update', 'check_player_impact', {});
 }
 
 let cursor = new Entity(Victor(0, 0), ['cursor']);

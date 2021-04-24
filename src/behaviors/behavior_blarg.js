@@ -10,7 +10,6 @@ let behavior_blarg = new Behavior('blarg', (entity, sim_space, parameters, memor
 
     let size = entity.memory.size;
     let other_blargs = sim_space.get_entities_with_tag('blarg');
-    //console.log(`${input_manager.mouse.mouse1.went_down} ${size} && ${other_blargs.length}`)
     if (input_manager.mouse.mouse1.went_down && size > 0 && other_blargs.length <= 0) {
         let blarg = new Entity(entity.location.clone(), ['blarg']);
         world_space.add_entity(blarg);
