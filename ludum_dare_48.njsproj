@@ -28,6 +28,7 @@
     <Content Include="src\assets\player_3_idle_0.png" />
     <Content Include="src\assets\sounds\test_sound.wav" />
     <Content Include="src\assets\stub.png" />
+    <Content Include="src\behaviors\goblin.js" />
     <Content Include="src\behaviors\mouse_camera.js" />
     <Content Include="src\behaviors\player_impact.js" />
     <Content Include="src\behaviors\eat.js" />

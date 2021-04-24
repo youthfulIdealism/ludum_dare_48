@@ -5,6 +5,7 @@ import './behaviors/behavior_log';
 import './behaviors/eat';
 import './behaviors/player_impact';
 import './behaviors/mouse_camera';
+import './behaviors/goblin';
 
 import * as Victor from 'victor'
 const world_scale = 2;
@@ -124,6 +125,12 @@ for (let q = 0; q < 5; q++) {
     world_space.entity_add_event_listener(food, 'update', 'check_player_impact', {});
 }
 
+for (let q = 0; q < 5; q++) {
+    let goblin = new Entity(Victor(100 + Math.random() * 400, 100 + Math.random() * 400), ['goblin']);
+    world_space.add_entity(goblin);
+    goblin.render_data[image_renderer_id] = { image: './assets/goblin.png' };
+    world_space.entity_add_event_listener(goblin, 'update', 'goblin', {});
+}
 
 let cursor = new Entity(Victor(0, 0), ['cursor']);
 world_space.add_entity(cursor);
