@@ -29,7 +29,10 @@ let behavior_wasd = new Behavior('wasd', (entity, sim_space, parameters, memory,
     console.log(entity.render_data['render-animation'].scale_x)
     
     if (is_moving) {
-        entity.location.add(direction.normalize().multiply(Victor(tpf, tpf)).multiply(Victor(parameters.speed, parameters.speed)));
+        let potential_location = entity.location.clone().add(direction.normalize().multiply(Victor(tpf, tpf)).multiply(Victor(parameters.speed, parameters.speed)))
+        if (window.in_bounds(potential_location)) {
+            entity.location = potential_location;
+        }
 
         parameters.time_until_step_sound -= tpf;
         if (parameters.time_until_step_sound <= 0) {

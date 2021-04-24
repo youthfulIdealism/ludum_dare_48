@@ -61,7 +61,11 @@ let goblin = new Behavior('goblin', (entity, sim_space, parameters, memory, cont
         particle_amp.render_data['attack-renderer'] = { image: './assets/triangle_particle.png', 'scale': .4 };
     } else if (state === 'charge') {
         let direction = parameters.charge_direction.clone().normalize().multiply(Victor(goblin_charge_speed, goblin_charge_speed)).multiply(Victor(tpf, tpf));
-        entity.location.add(direction);
+        let potential_location = entity.location.clone().add(direction);
+        if (window.in_bounds(potential_location)) {
+            entity.location = potential_location;
+        }
+        
         parameters.charge_time += tpf;
         if (parameters.charge_time > goblin_charge_time) { entity.memory.state = 'chase' }
 

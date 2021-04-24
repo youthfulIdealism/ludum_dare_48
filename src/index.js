@@ -170,7 +170,8 @@ world_space.entity_add_event_listener(player, 'collide', 'eat', { amount: 1 });
 world_space.entity_add_event_listener(player, 'collide', 'hit_by_charging_goblin', { });
 player.render_data[render_animation_id] = {};
 player.render_data[render_player_bar_id] = {};
-player.render_data['render_shadow'] = {image: './assets/shadow.png', opacity: .3, scale: .5, offset_y : 45};
+player.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: .5, offset_y: 45 };
+
 
 /*let box = new Entity(Victor(0, 0), []);
 world_space.add_entity(box);
@@ -215,6 +216,21 @@ world_space.add_entity(cursor);
 world_space.entity_add_event_listener(cursor, 'update', 'mouse_camera', {});
 world_space.entity_add_event_listener(cursor, 'update', 'click', {});
 camera.entity_id = cursor.id;
+
+let arena_walls = new Entity(Victor(1800, 1800), ['arena_walls']);
+world_space.add_entity(arena_walls);
+arena_walls.render_data[image_renderer_id] = { image: './assets/arena_walls.png' };
+window.valid_min_x = 1800 - 1080 / 2;
+window.valid_min_y = 1800 - 1080 / 2;
+window.valid_max_x = 1800 + 1080 / 2;
+window.valid_max_y = 1800 + 1080 / 2;
+window.in_bounds = function (location) {
+    return location.x >= window.valid_min_x &&
+        location.y >= window.valid_min_y &&
+        location.x <= window.valid_max_x &&
+        location.y <= window.valid_max_y;
+
+}
 
 function loop(timestamp) {
     var progress = timestamp - last_render_timestamp;

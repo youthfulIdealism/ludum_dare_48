@@ -18,6 +18,7 @@
   <ItemGroup>
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
+    <Content Include="src\assets\arena_walls.png" />
     <Content Include="src\assets\bell_0.png" />
     <Content Include="src\assets\bg.png" />
     <Content Include="src\assets\bg_attack.png" />
