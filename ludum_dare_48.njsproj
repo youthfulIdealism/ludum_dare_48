@@ -21,6 +21,7 @@
     <Content Include="src\assets\bell_0.png" />
     <Content Include="src\assets\bg.png" />
     <Content Include="src\assets\bg_attack.png" />
+    <Content Include="src\assets\bg_shadow.png" />
     <Content Include="src\assets\blarg.png" />
     <Content Include="src\assets\food_0.png" />
     <Content Include="src\assets\goblin.png" />
@@ -31,8 +32,11 @@
     <Content Include="src\assets\player_0_idle_1.png" />
     <Content Include="src\assets\player_0_idle_2.png" />
     <Content Include="src\assets\player_1_idle_0.png" />
+    <Content Include="src\assets\player_1_idle_1.png" />
+    <Content Include="src\assets\player_1_idle_2.png" />
     <Content Include="src\assets\player_2_idle_0.png" />
     <Content Include="src\assets\player_3_idle_0.png" />
+    <Content Include="src\assets\shadow.png" />
     <Content Include="src\assets\shield_goblin.png" />
     <Content Include="src\assets\sounds\player_0_step.wav" />
     <Content Include="src\assets\sounds\player_1_step.wav" />

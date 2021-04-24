@@ -59,6 +59,7 @@ camera.zoom = world_scale;
 window.camera = camera;
 let map_background_renderer = new WholeScreenRenderer(render_map_background_id, (sim_space) => { }, './assets/tiles.png', true)
 let block_renderer = new BlockRenderer(block_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[block_renderer_id] !== undefined); });
+let shadow_renderer = new ImageRenderer('render_shadow', (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data['render_shadow'] !== undefined); });
 let image_renderer = new ImageRenderer(image_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[image_renderer_id] !== undefined); });
 let attack_renderer = new MaskRenderer(attack_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[attack_renderer_id] !== undefined); }, './assets/bg_attack.png', false)
 let mask_renderer = new MaskRenderer(mask_bg_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[mask_bg_renderer_id] !== undefined); }, './assets/bg.png', true)
@@ -70,6 +71,7 @@ let player_health_bar_renderer = new RenderPlayerHealthBar(render_player_bar_id,
 function init_world_space() {
     world_space = new SimSpace();
     world_space.push_renderer(map_background_renderer, camera);
+    world_space.push_renderer(shadow_renderer, camera);
     world_space.push_renderer(attack_renderer, camera);
     world_space.push_renderer(mask_renderer, camera);
     world_space.push_renderer(animation_renderer, camera);
@@ -168,6 +170,8 @@ world_space.entity_add_event_listener(player, 'collide', 'eat', { amount: 1 });
 world_space.entity_add_event_listener(player, 'collide', 'hit_by_charging_goblin', { });
 player.render_data[render_animation_id] = {};
 player.render_data[render_player_bar_id] = {};
+player.render_data['render_shadow'] = {image: './assets/shadow.png', opacity: .3, scale: .5, offset_y : 45};
+
 /*let box = new Entity(Victor(0, 0), []);
 world_space.add_entity(box);
 box.render_data[block_renderer_id] = { height: 60, width: 60 };*/
@@ -187,6 +191,7 @@ for (let q = 0; q < 5; q++) {
     goblin.memory.state = 'chase';
     goblin.render_data[image_renderer_id] = { image: './assets/goblin.png' };
     goblin.render_data[render_health_bar_id] = {};
+    goblin.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: .5, offset_y: 35 };
     world_space.entity_add_event_listener(goblin, 'update', 'goblin', { });
     world_space.entity_add_event_listener(goblin, 'update', 'check_player_impact', {});
 }
@@ -200,6 +205,7 @@ for (let q = 0; q < 3; q++) {
     big_goblin.memory.state = 'chase';
     big_goblin.render_data[image_renderer_id] = { image: './assets/shield_goblin.png' };
     big_goblin.render_data[render_health_bar_id] = {};
+    big_goblin.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: .7, offset_y: 30 };
     world_space.entity_add_event_listener(big_goblin, 'update', 'goblin', { state: 'chase' });
     world_space.entity_add_event_listener(big_goblin, 'update', 'check_player_impact', {});
 }
