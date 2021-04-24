@@ -179,6 +179,68 @@ player.memory.animations = {
         ],
         type: 'loop',
     },
+    run_1: {
+        frames: [
+            {
+                image: "./assets/player_1_run_0.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_1_run_1.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_1_run_2.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_1_run_3.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_1_run_4.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_1_run_5.png",
+                duration: 1
+            },
+        ],
+        type: 'loop',
+    },
+    run_2: {
+        frames: [
+            {
+                image: "./assets/player_2_run_0.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_2_run_1.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_2_run_2.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_2_run_3.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_2_run_4.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_2_run_5.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_2_run_6.png",
+                duration: 1
+            },
+        ],
+        type: 'loop',
+    },
     idle_1: {
         frames: [
             {
@@ -310,8 +372,12 @@ function loop(timestamp) {
 
     window.shake.update(tpf);
     camera.location.add(window.shake.current_offset);
-
-    world_space.draw(tpf, canvas);
+    try {
+        world_space.draw(tpf, canvas);
+    } catch (err) {
+        console.log(player.memory);
+    }
+   
 
     last_render_timestamp = timestamp;
     window.requestAnimationFrame(loop);

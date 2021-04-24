@@ -63,6 +63,12 @@ let behavior_wasd = new Behavior('wasd', (entity, sim_space, parameters, memory,
         }
     } else {
         parameters.time_until_step_sound = 0;
+
+        if (entity.memory.animation !== entity.memory.animations[`idle_${entity.memory.size}`] && entity.memory.animations[`idle_${entity.memory.size}`]) {
+            entity.memory.animation = entity.memory.animations[`idle_${entity.memory.size}`];
+            entity.memory.animation_progress = 0;
+            entity.memory.animation_current_frame = 0;
+        }
     }
     return false;
 
