@@ -241,6 +241,31 @@ player.memory.animations = {
         ],
         type: 'loop',
     },
+    run_3: {
+        frames: [
+            {
+                image: "./assets/player_3_run_0.png",
+                duration: 1.5
+            },
+            {
+                image: "./assets/player_3_run_1.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_3_run_2.png",
+                duration: 1
+            },
+            {
+                image: "./assets/player_3_run_3.png",
+                duration: 1.5
+            },
+            {
+                image: "./assets/player_3_run_1.png",
+                duration: 1
+            },
+        ],
+        type: 'loop',
+    },
     idle_1: {
         frames: [
             {
