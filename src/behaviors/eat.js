@@ -1,7 +1,7 @@
 import { Entity, SimSpace, Behavior } from 'yi-js-engine'
 import * as Victor from 'victor'
 
-let behavior_resize = new Behavior('eat', (entity, sim_space, parameters, memory, context) => {
+let behavior_eat = new Behavior('eat', (entity, sim_space, parameters, memory, context) => {
     let collision = context.entities;
     let foods = context.entities.filter(ele => ele.tags.includes('food'));
     for (let food of foods) { sim_space.remove_entity(food); }

@@ -4,6 +4,7 @@ import './behaviors/behavior_click';
 import './behaviors/behavior_log';
 import './behaviors/eat';
 import './behaviors/player_impact';
+import './behaviors/mouse_camera';
 
 import * as Victor from 'victor'
 const world_scale = 2;
@@ -64,7 +65,6 @@ function init_world_space() {
 init_world_space();
 
 let player = new Entity(Victor(0, 0), ['player']);
-camera.entity_id = player.id;
 world_space.add_entity(player);
 player.memory.animations = {
     idle_0: {
@@ -111,7 +111,6 @@ world_space.entity_add_event_listener(player, 'update', 'wasd', { speed: 16 });
 world_space.entity_add_event_listener(player, 'click', 'play_sound', { sounds: [{ path: './assets/sounds/test_sound.wav' }] });
 world_space.entity_add_event_listener(player, 'click', 'log', { text: 'hi there' });
 world_space.entity_add_event_listener(player, 'collide', 'eat', { amount: 1 });
-//player.render_data[image_renderer_id] = { image: './assets/stub.png' };
 player.render_data[render_animation_id] = { };
 
 /*let box = new Entity(Victor(0, 0), []);
@@ -128,8 +127,9 @@ for (let q = 0; q < 5; q++) {
 
 let cursor = new Entity(Victor(0, 0), ['cursor']);
 world_space.add_entity(cursor);
+world_space.entity_add_event_listener(cursor, 'update', 'mouse_camera', {});
 world_space.entity_add_event_listener(cursor, 'update', 'click', {});
-
+camera.entity_id = cursor.id;
 
 function loop(timestamp) {
     var progress = timestamp - last_render_timestamp;
