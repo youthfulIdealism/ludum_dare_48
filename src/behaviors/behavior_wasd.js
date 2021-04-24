@@ -40,6 +40,22 @@ let behavior_wasd = new Behavior('wasd', (entity, sim_space, parameters, memory,
             let sound = sim_space.asset_manager.get_sound(sounds_by_size[entity.memory.size]);
             sound.play();
         }
+
+        if (Math.random() < .1) {
+            let particle_dust = new Entity(entity.location.clone().add(Victor(0, 20), []));
+            world_space.add_entity(particle_dust);
+            world_space.entity_add_event_listener(particle_dust, 'update', 'particle', {
+                'renderer': 'image-renderer',
+                'start_scale': .3,
+                'end_scale': 1,
+                'start_opacity': .3,
+                'end_opacity': .05,
+                'duration': 30 + Math.random() * 20,
+                'direction': Victor(0, -1),
+                'velocity': (1 + Math.random()) * .1,
+            });
+            particle_dust.render_data['image-renderer'] = { image: './assets/particle_dust.png', scale: .3, opacity: .3 };
+        }
     } else {
         parameters.time_until_step_sound = 0;
     }

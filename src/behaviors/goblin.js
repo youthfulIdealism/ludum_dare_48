@@ -18,10 +18,8 @@ let goblin = new Behavior('goblin', (entity, sim_space, parameters, memory, cont
             let direction = player.location.clone().subtract(entity.location).normalize().multiply(Victor(speed, speed)).multiply(Victor(tpf, tpf));
             entity.location.add(direction);
         } else {
-            let direction = player.location.clone().subtract(entity.location).normalize().multiply(Victor(speed, speed)).multiply(Victor(tpf, tpf));
             entity.memory.state = 'amp';
             parameters.current_amp_time = 0;
-            parameters.charge_direction = direction.clone();
 
             let particle_attack_circle = new Entity(entity.location.clone(), []);
             world_space.add_entity(particle_attack_circle);
@@ -39,6 +37,9 @@ let goblin = new Behavior('goblin', (entity, sim_space, parameters, memory, cont
         }
     }
     else if (state === 'amp') {
+        let direction = player.location.clone().subtract(entity.location).normalize().multiply(Victor(speed, speed)).multiply(Victor(tpf, tpf));
+        parameters.charge_direction = direction.clone();
+
         parameters.current_amp_time += tpf;if (parameters.current_amp_time > goblin_amp_time) {
             entity.memory.state = 'charge'
             parameters.charge_time = 0;
