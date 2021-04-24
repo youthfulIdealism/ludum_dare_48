@@ -17,6 +17,11 @@ let goblin = new Behavior('goblin', (entity, sim_space, parameters, memory, cont
         if (distance > goblin_charge_distance) {
             let direction = player.location.clone().subtract(entity.location).normalize().multiply(Victor(speed, speed)).multiply(Victor(tpf, tpf));
             entity.location.add(direction);
+            if (entity.render_data['render-animation']) {
+                if (direction.x < 0) { entity.render_data['render-animation'].scale_x = -1; }
+                if (direction.x > 0) { entity.render_data['render-animation'].scale_x = 1; }
+            }
+            
         } else {
             entity.memory.state = 'amp';
             parameters.current_amp_time = 0;
@@ -35,6 +40,8 @@ let goblin = new Behavior('goblin', (entity, sim_space, parameters, memory, cont
             });
             particle_attack_circle.render_data['attack-renderer'] = { image: './assets/particle_attack_circle.png' };
         }
+
+        
     }
     else if (state === 'amp') {
         let direction = player.location.clone().subtract(entity.location).normalize().multiply(Victor(speed, speed)).multiply(Victor(tpf, tpf));

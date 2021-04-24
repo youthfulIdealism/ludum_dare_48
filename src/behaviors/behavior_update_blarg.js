@@ -4,8 +4,15 @@ import * as Victor from 'victor'
 const damage_tick_frequency = 10;
 let scale_accum = 0;
 
+let blarg_sound;
+
 let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, parameters, memory, context) => {
     if (!sim_space.input_manager) { return; }
+
+    if (!blarg_sound) {
+        blarg_sound = sim_space.asset_manager.get_sound('./assets/sounds/blarg.wav');
+        blarg_sound.play();
+    }
 
     //get mouse location
     let input_manager = sim_space.input_manager;
@@ -47,6 +54,9 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
         if (parameters.damage_ticks_remaining < 0) {
             //stop the blarg
             sim_space.remove_entity(entity);
+            blarg_sound.pause()
+            blarg_sound.currentTime = 0;
+            blarg_sound = undefined;
 
             //reset the player size
             player.event_listeners.update.wasd.speed = window.player_speed_settings[0];
@@ -76,6 +86,18 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
 
                     if (enemy.memory.health <= 0) {
                         sim_space.remove_entity(enemy);
+
+
+                        if (enemy.tags.includes('small')) {
+                            let sound = sim_space.asset_manager.get_sound('./assets/sounds/monster_pop_small.wav');
+                            sound.play();
+                        } else if (enemy.tags.includes('big')) {
+                            let sound = sim_space.asset_manager.get_sound('./assets/sounds/monster_pop_big.wav');
+                            sound.play();
+                        } else {
+                            let sound = sim_space.asset_manager.get_sound('./assets/sounds/monster_pop_medium.wav');
+                            sound.play();
+                        }
                     }
                     
                 }

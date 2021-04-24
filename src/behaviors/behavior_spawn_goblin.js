@@ -28,14 +28,49 @@ let spawn_goblin = new Behavior('spawn_goblin', (entity, sim_space, parameters, 
     if (parameters.spawn_goblin_time <= 0) {
         sim_space.remove_entity(entity);
 
-        let goblin = new Entity(parameters.location, ['goblin', 'enemy']);
+        let sound = sim_space.asset_manager.get_sound('./assets/sounds/spawn_squelch.wav');
+        sound.play();
+
+        let goblin = new Entity(parameters.location, ['goblin', 'enemy', 'small']);
         world_space.add_entity(goblin);
         goblin.memory.health = 1;
         goblin.memory.max_health = 1;
         goblin.memory.state = 'chase';
-        goblin.render_data['image-renderer'] = { image: './assets/goblin.png' };
+        goblin.memory.animations = {
+            run: {
+                frames: [
+                    {
+                        image: "./assets/goblin_run_0.png",
+                        duration: 2
+                    },
+                    {
+                        image: "./assets/goblin_run_1.png",
+                        duration: 2
+                    },
+                    {
+                        image: "./assets/goblin_run_2.png",
+                        duration: 3
+                    },
+                    {
+                        image: "./assets/goblin_run_3.png",
+                        duration: 3
+                    },
+                    {
+                        image: "./assets/goblin_run_4.png",
+                        duration: 2
+                    },
+                    {
+                        image: "./assets/goblin_run_5.png",
+                        duration: 2
+                    },
+                ],
+                type: 'loop',
+            },
+        }
+        goblin.memory.animation = goblin.memory.animations.run;
+        goblin.render_data['render-animation'] = { };
         goblin.render_data['render-health-bar'] = {};
-        goblin.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: .5, offset_y: 35 };
+        goblin.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: .5, offset_y: 25 };
         world_space.entity_add_event_listener(goblin, 'update', 'goblin', {});
         world_space.entity_add_event_listener(goblin, 'update', 'check_player_impact', {});
     }

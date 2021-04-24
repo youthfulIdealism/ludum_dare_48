@@ -28,6 +28,9 @@ let spawn_goblin = new Behavior('spawn_big_goblin', (entity, sim_space, paramete
     if (parameters.spawn_goblin_time <= 0) {
         sim_space.remove_entity(entity);
 
+        let sound = sim_space.asset_manager.get_sound('./assets/sounds/spawn_squelch.wav');
+        sound.play();
+
         let big_goblin = new Entity(parameters.location, ['goblin', 'enemy']);
         world_space.add_entity(big_goblin);
         big_goblin.memory.health = 1;

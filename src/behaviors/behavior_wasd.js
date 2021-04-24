@@ -3,10 +3,11 @@ import * as Victor from 'victor'
 
 const step_sound_time = 4;
 const step_sound_variance = 1;
-let sounds_by_size = ['./assets/sounds/player_0_step.wav',
-    './assets/sounds/player_1_step.wav',
-    './assets/sounds/player_2_step.wav',
-    './assets/sounds/player_3_step.wav',]
+let step_accum = 0;
+let sounds_by_size = [['./assets/sounds/player_0_step_0.wav', './assets/sounds/player_0_step_1.wav', './assets/sounds/player_0_step_2.wav', './assets/sounds/player_0_step_3.wav'],
+    ['./assets/sounds/player_1_step_0.wav', './assets/sounds/player_1_step_1.wav', './assets/sounds/player_1_step_2.wav', './assets/sounds/player_1_step_3.wav'],
+    ['./assets/sounds/player_2_step_0.wav', './assets/sounds/player_2_step_1.wav', './assets/sounds/player_2_step_2.wav', './assets/sounds/player_2_step_3.wav'],
+    ['./assets/sounds/player_3_step_0.wav', './assets/sounds/player_3_step_1.wav', './assets/sounds/player_3_step_2.wav', './assets/sounds/player_3_step_3.wav'],]
 
 let behavior_wasd = new Behavior('wasd', (entity, sim_space, parameters, memory, context) => {
     if (!sim_space.input_manager) { return; }
@@ -42,8 +43,9 @@ let behavior_wasd = new Behavior('wasd', (entity, sim_space, parameters, memory,
         parameters.time_until_step_sound -= tpf;
         if (parameters.time_until_step_sound <= 0) {
             parameters.time_until_step_sound = step_sound_time + Math.random() * step_sound_variance;
-            let sound = sim_space.asset_manager.get_sound(sounds_by_size[entity.memory.size]);
+            let sound = sim_space.asset_manager.get_sound(sounds_by_size[entity.memory.size][step_accum % sounds_by_size[entity.memory.size].length]);
             sound.play();
+            step_accum++;
         }
 
         if (Math.random() < .1) {

@@ -24,7 +24,10 @@ let behavior_bell = new Behavior('bell', (entity, sim_space, parameters, memory,
     if (enemy_spawners.length > 0) { return false; }
     if (current_wave_index >= waves.length) { return false; }
     let current_wave = waves[current_wave_index];
-   
+
+    let sound = sim_space.asset_manager.get_sound('./assets/sounds/spawn_drone.wav');
+    sound.play();
+
     if (current_wave.goblins) {
         for (let q = 0; q < current_wave.goblins; q++) {
             let spawner = new Entity(Victor(0, 0), ['enemy_spawner']);
