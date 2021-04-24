@@ -2,6 +2,7 @@ import { Entity, SimSpace, Behavior } from 'yi-js-engine'
 import * as Victor from 'victor'
 
 const damage_tick_frequency = 10;
+let scale_accum = 0;
 
 let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, parameters, memory, context) => {
     if (!sim_space.input_manager) { return; }
@@ -20,13 +21,14 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
     let player = sim_space.get_entities_with_tag('player')[0];
     let enemies = sim_space.get_entities_with_tag('enemy');
     let tpf = context.tpf;
-
+    scale_accum += tpf;
 
     //generate render direction
     let start_loc = player.location.clone();
     let direction = target_location.clone().subtract(start_loc).normalize();
     entity.location = start_loc;
     entity.render_data['mask-renderer-bg'].rotation = direction.angle() - (Math.PI / 2) * 3;
+    entity.render_data['mask-renderer-bg'].scale_x = (parameters.size / 4) * (1 + Math.sin(scale_accum * .5)) * .2;
     entity.render_data['mask-renderer-bg'].scale_y = 1;
 
     //keep player from moving very fast
@@ -60,6 +62,8 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
         for (let enemy of enemies) {
             if (damage_check_location.distance(enemy.location) < 40) {
                 is_blocked = true;
+
+                entity.render_data['mask-renderer-bg'].scale_y = q / (1920 / 2);
 
                 //deal damage
                 if (is_damage_tick) {

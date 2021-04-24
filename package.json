@@ -13,7 +13,7 @@
     "victor": "^1.1.0",
     "vue": "^2.6.12",
     "vue-smooth-dnd": "^0.8.1",
-    "yi-js-engine": "^0.0.8"
+    "yi-js-engine": "^0.0.9"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^6.4.0",
