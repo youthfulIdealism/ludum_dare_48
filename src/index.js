@@ -22,6 +22,7 @@ import './behaviors/projectile'
 
 import { RenderHealthBar } from './renderers/render_health_bar';
 import { RenderPlayerHealthBar } from './renderers/render_player_health_bar';
+import { RenderDecals } from './renderers/render_decals';
 
 import * as Victor from 'victor'
 const world_scale = 2;
@@ -99,11 +100,12 @@ let mask_renderer = new MaskRenderer(mask_bg_renderer_id, (sim_space) => { retur
 let animation_renderer = new AnimationRenderer(render_animation_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[render_animation_id] !== undefined); })
 let health_bar_renderer = new RenderHealthBar(render_health_bar_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[render_health_bar_id] !== undefined); })
 let player_health_bar_renderer = new RenderPlayerHealthBar(render_player_bar_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[render_player_bar_id] !== undefined); })
-
+let render_decals = new RenderDecals('render-decals', (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data['render-decals'] !== undefined); })
 
 function init_world_space() {
     world_space = new SimSpace();
     world_space.push_renderer(map_background_renderer, camera);
+    world_space.push_renderer(render_decals, camera);
     world_space.push_renderer(shadow_renderer, camera);
     world_space.push_renderer(attack_renderer, camera);
     world_space.push_renderer(mask_renderer, camera);
@@ -122,6 +124,7 @@ function init_world_space() {
 init_world_space();
 
 let player = new Entity(Victor(1600, 1800), ['player']);
+window.player = player;//debugging
 world_space.add_entity(player);
 player.memory.animations = {
     idle_0: {

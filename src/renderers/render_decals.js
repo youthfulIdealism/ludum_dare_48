@@ -1,52 +1,68 @@
 import { Entity, SimSpace, Camera, Renderer, AssetManager, Schema } from 'yi-js-engine'
 import * as Victor from 'victor'
 
-export class RenderHealthBar extends Renderer {
+export class RenderDecals extends Renderer {
 
     get schema() {
         return {};
     }
 
     render(tpf, asset_manager, camera, main_canvas, entities) {
+        let mask_canvas = Renderer.request_canvas('mask', this.id);
+        if (mask_canvas.width !== 1080) {
+            mask_canvas.width = 1080;
+            mask_canvas.height = 1080;
+        }
+
+        let mask_renderer = mask_canvas.getContext('2d');
+        mask_renderer.imageSmoothingEnabled = false;
+
+        mask_renderer.resetTransform();
+        //mask_renderer.translate(-camera.location.x + main_canvas.width / 2, -camera.location.y + main_canvas.height / 2);
+        //mask_renderer.scale(camera.zoom, camera.zoom);
+        mask_renderer.translate(-1800 + 1080 / 2, -1800 + 1080 / 2);
+
+        for (let entity of entities) {
+            
+            let render_data = entity.render_data[this.id];
+            let image_path = render_data.image;
+            if (!image_path) { continue; }
+            let image = asset_manager.get_image(entity.render_data[this.id].image);
+
+            mask_renderer.save();
+            mask_renderer.translate(entity.location.x, entity.location.y);
+
+
+            if (render_data.opacity !== undefined) { mask_renderer.globalAlpha = render_data.opacity; }
+            if (render_data.rotation !== undefined) { mask_renderer.rotate(render_data.rotation); }
+
+            if (render_data.scale !== undefined) { mask_renderer.scale(render_data.scale, render_data.scale); }
+            if (render_data.scale_x !== undefined) { mask_renderer.scale(render_data.scale_x, 1); }
+            if (render_data.scale_y !== undefined) { mask_renderer.scale(1, render_data.scale_y); }
+
+            mask_renderer.translate(-image.width / 2, -image.height / 2);
+            mask_renderer.drawImage(image, 0, 0);
+
+            mask_renderer.restore();
+            if (render_data.opacity !== undefined) { mask_renderer.globalAlpha = 1; }
+        }
+
         let renderer = main_canvas.getContext('2d');
         if (!renderer) { throw new Error('Renderer is null'); }
         renderer.resetTransform();
         renderer.imageSmoothingEnabled = false;
+        //let top_left_corner_x = window.valid_min_x;
+        //let top_left_corner_y = window.valid_min_y
+        // mask_renderer.drawImage(mask_texture_canvas, -(camera.location.x % (mask_texture_canvas.width / 2)), -(camera.location.y % (mask_texture_canvas.height / 2)));
 
-        renderer.translate(- camera.location.x + main_canvas.width / 2, -camera.location.y + main_canvas.height / 2);
+        //console.log(`${(camera.location.x - top_left_corner_x - main_canvas.width) / 2}, ${(camera.location.y - top_left_corner_y - main_canvas.width) / 2}`);
+        //renderer.translate((camera.location.x - top_left_corner_x - main_canvas.width) / 2, (camera.location.y - top_left_corner_y - main_canvas.width) / 2);
+        let scalar = 1 / camera.zoom;
+        renderer.translate(-camera.location.x + main_canvas.width / 2, -camera.location.y + main_canvas.height / 2);
         renderer.scale(camera.zoom, camera.zoom);
-
-        for (let entity of entities) {
-            renderer.save()
-            renderer.translate(entity.location.x, entity.location.y);
-            let health = entity.memory.health ? entity.memory.health : 0;
-            let max_health = entity.memory.max_health ? entity.memory.max_health : health;
-            let armor = entity.memory.armor ? entity.memory.armor : 0;
-            let slot_count = max_health + armor;
-            let slot_width = 8;
-            let inner_width = 6;
-
-            let x_offset = entity.render_data[this.id].x_offset ? entity.render_data[this.id].x_offset : -(slot_count * slot_width) / 2;
-            let y_offset = entity.render_data[this.id].y_offset ? entity.render_data[this.id].y_offset : 20;
-
-            //draw slots
-            for (let q = 0; q < slot_count; q++) {
-                renderer.fillStyle = 'black';
-                renderer.fillRect(x_offset + slot_width * q, y_offset, slot_width, 6);
-            }
-
-            //draw health
-            for (let q = 0; q < health; q++) {
-                renderer.fillStyle = 'red';
-                renderer.fillRect(x_offset + 1 + slot_width * q, y_offset + 1, inner_width, 4);
-            }
-
-            //draw armor
-            for (let q = 0; q < armor; q++) {
-                renderer.fillStyle = 'grey';
-                renderer.fillRect(x_offset + 1 + slot_width * max_health + slot_width * q, y_offset + 1, inner_width, 4);
-            }
-            renderer.restore();
-        }
+        //renderer.translate(1800 * scalar, 1800 * scalar);
+        //renderer.translate((-1800 / 2) * scalar, (-1800 / 2) * scalar);
+        renderer.drawImage(mask_canvas, (1800 + 1080 / 2) * scalar + 90, (1800 + 1080 / 2) * scalar + 90);
+        renderer.resetTransform();
     }
 }

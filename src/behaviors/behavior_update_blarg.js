@@ -134,5 +134,5 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
 
         damage_check_location.add(damage_check_adder)
     }
-
+    entity.render_data['render-decals'] = entity.render_data['mask-renderer-bg'];
 }, {});
