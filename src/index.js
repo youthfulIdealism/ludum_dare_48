@@ -315,7 +315,7 @@ window.player_immune_time = 25;
 
 player.memory.animation = JSON.parse(JSON.stringify(player.memory.animations.idle_0));
 player.memory.size = 0;
-player.memory.width = 40;
+player.memory.width = 25;
 player.memory.health = 4;
 player.memory.max_health = 4;
 world_space.entity_add_event_listener(player, 'update', 'wasd', { speed: 16 });
