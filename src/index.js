@@ -132,6 +132,7 @@ let map_background_renderer = new WholeScreenRenderer(render_map_background_id, 
 let block_renderer = new BlockRenderer(block_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[block_renderer_id] !== undefined); });
 let shadow_renderer = new ImageRenderer('render_shadow', (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data['render_shadow'] !== undefined); });
 let image_renderer = new ImageRenderer(image_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[image_renderer_id] !== undefined); });
+let background_image_renderer = new ImageRenderer('background-image-renderer', (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data['background-image-renderer'] !== undefined); });
 let attack_renderer = new MaskRenderer(attack_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[attack_renderer_id] !== undefined); }, './assets/bg_attack.png', false)
 let mask_renderer = new MaskRenderer(mask_bg_renderer_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[mask_bg_renderer_id] !== undefined); }, './assets/bg.png', true)
 let animation_renderer = new AnimationRenderer(render_animation_id, (sim_space) => { return Object.values(sim_space.entities).filter(entity => entity.render_data[render_animation_id] !== undefined); })
@@ -142,6 +143,7 @@ let render_decals = new RenderDecals('render-decals', (sim_space) => { return Ob
 function init_world_space() {
     world_space = new SimSpace();
     world_space.push_renderer(map_background_renderer, camera);
+    world_space.push_renderer(background_image_renderer, camera);
     world_space.push_renderer(render_decals, camera);
     world_space.push_renderer(shadow_renderer, camera);
     world_space.push_renderer(attack_renderer, camera);
@@ -382,6 +384,12 @@ for (let q = 0; q < 5; q++) {
     world_space.entity_add_event_listener(food, 'update', 'check_player_impact', {});
     world_space.entity_add_event_listener(food, 'update', 'food_float', {});
 }
+
+for (let q = 0; q < 40; q++) {
+    let tile_patch = new Entity(Victor(1800 + (Math.random() - .5) * 1060, 1800 + (Math.random() - .5) * 1060), []);
+    world_space.add_entity(tile_patch);
+    tile_patch.render_data['background-image-renderer'] = { image: './assets/tile_patch.png' };
+}
 /*
 for (let q = 0; q < 3; q++) {
     let big_goblin = new Entity(Victor(1800 + 100 + Math.random() * 400, 1800 + 100 + Math.random() * 400), ['goblin', 'enemy']);
@@ -405,11 +413,31 @@ camera.entity_id = cursor.id;
 
 let arena_walls = new Entity(Victor(1800, 1800), ['arena_walls']);
 world_space.add_entity(arena_walls);
-arena_walls.render_data[image_renderer_id] = { image: './assets/arena_walls.png' };
+arena_walls.render_data['background-image-renderer'] = { image: './assets/arena_walls.png' };
 window.valid_min_x = 1800 - 1080 / 2;
 window.valid_min_y = 1800 - 1080 / 2;
 window.valid_max_x = 1800 + 1080 / 2;
 window.valid_max_y = 1800 + 1080 / 2;
+
+let surroundings_left = new Entity(Victor(1800 - 1080, 1800), ['arena_walls']);
+world_space.add_entity(surroundings_left);
+surroundings_left.render_data[image_renderer_id] = { image: './assets/surroundings_left.png' };
+let surroundings_left_up = new Entity(Victor(1800 - 1080, 1800 - 1080), ['arena_walls']);
+world_space.add_entity(surroundings_left_up);
+surroundings_left_up.render_data[image_renderer_id] = { image: './assets/surroundings_left.png' };
+let surroundings_left_down = new Entity(Victor(1800 - 1080, 1800 + 1080), ['arena_walls']);
+world_space.add_entity(surroundings_left_down);
+surroundings_left_down.render_data[image_renderer_id] = { image: './assets/surroundings_left.png' };
+
+let surroundings_right = new Entity(Victor(1800 + 1080, 1800), ['arena_walls']);
+world_space.add_entity(surroundings_right);
+surroundings_right.render_data[image_renderer_id] = { image: './assets/surroundings_right.png' };
+let surroundings_right_up = new Entity(Victor(1800 + 1080, 1800 - 1080), ['arena_walls']);
+world_space.add_entity(surroundings_right_up);
+surroundings_right_up.render_data[image_renderer_id] = { image: './assets/surroundings_right.png' };
+let surroundings_right_down = new Entity(Victor(1800 + 1080, 1800 + 1080), ['arena_walls']);
+world_space.add_entity(surroundings_right_down);
+surroundings_right_down.render_data[image_renderer_id] = { image: './assets/surroundings_right.png' };
 
 let bell = new Entity(Victor(1800, 1800), ['bell', 'enemy']);
 world_space.add_entity(bell);

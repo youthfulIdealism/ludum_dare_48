@@ -73,6 +73,25 @@ let spawn_goblin = new Behavior('spawn_goblin', (entity, sim_space, parameters, 
         goblin.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: .5, offset_y: 25 };
         world_space.entity_add_event_listener(goblin, 'update', 'goblin', {});
         world_space.entity_add_event_listener(goblin, 'update', 'check_player_impact', {});
+
+
+        let crack = new Entity(parameters.location.clone(), []);
+        world_space.add_entity(crack);
+        let crack_config = {
+            'renderer': 'render-decals',
+            'start_scale': .5,
+            'end_scale': .5,
+            'start_opacity': 1,
+            'end_opacity': 1,
+            'start_rotation': 0,
+            'end_rotation': 0,
+            'direction': Victor(1,0),
+            'velocity': 0,
+            'acceleration': 0,
+            'duration': .001,
+        };
+        world_space.entity_add_event_listener(crack, 'update', 'particle', crack_config);
+        crack.render_data['render-decals'] = { image: './assets/eruption_site.png', scale: crack_config.start_scale, opacity: crack_config.start_opacity };
     }
 
 }, {});

@@ -29,8 +29,8 @@ let waves = [
         spitting_goblins: 4
     },
     {
-        goblins: 12,
-        shield_goblins: 4,
+        goblins: 14,
+        shield_goblins: 3,
         spitting_goblins: 5,
         big_goblins: 4,
     },// DO NOT ADD MORE WAVES -- It'll break the music.
