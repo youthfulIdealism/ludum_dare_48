@@ -9,7 +9,7 @@ let spitting_goblin = new Behavior('spitting_goblin', (entity, sim_space, parame
     let tpf = context.tpf;
     shot_countdown -= tpf;
 
-    if (shot_countdown <= 0) {
+    if (shot_countdown <= 0 && player.location.distance(entity.location) < 500) {
         let sound = sim_space.asset_manager.get_sound('./assets/sounds/spit.wav');
         sound.play();
 
