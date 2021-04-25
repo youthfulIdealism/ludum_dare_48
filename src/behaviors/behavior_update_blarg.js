@@ -78,9 +78,11 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
     let damage_check_adder = direction.clone().multiply(Victor(damage_check_interval, damage_check_interval));
     for (let q = 0; q < 1920 / 2; q += damage_check_interval) {
         let is_blocked = false;
+        let block_armor = 0;
         for (let enemy of enemies) {
             if (damage_check_location.distance(enemy.location) < 40) {
                 is_blocked = true;
+                block_armor = enemy.memory.armor ? Math.max(enemy.memory.armor, block_armor) : block_armor;
                 let actual_block_distance = start_loc.distance(enemy.location);
                 entity.render_data['mask-renderer-bg'].scale_y = actual_block_distance / (1920 / 2);
 
@@ -194,6 +196,47 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
                 });
                 particle.render_data['mask-renderer-bg'] = { image: './assets/triangle_particle_soft.png' };
             }
+
+            if (Math.random() < .1) {
+                let floor_mark = new Entity(damage_check_location.clone(), []);
+                world_space.add_entity(floor_mark);
+                let floor_mark_config = {
+                    'renderer': 'render-decals',
+                    'start_scale': 1,
+                    'end_scale': 1,
+                    'start_opacity': .01,
+                    'end_opacity': .001,
+                    'start_rotation': direction.angle(),
+                    'end_rotation': direction.angle(),
+                    'direction': Victor(1, 0),
+                    'velocity': 0,
+                    'acceleration': 0,
+                    'duration': 0,
+                };
+                world_space.entity_add_event_listener(floor_mark, 'update', 'particle', floor_mark_config);
+                floor_mark.render_data['render-decals'] = { image: './assets/blarg_mark.png', scale: floor_mark_config.start_scale, opacity: floor_mark_config.start_opacity, rotation: floor_mark_config.start_rotation };
+            }
+
+            if (block_armor > parameters.size) {
+                let spark = new Entity(damage_check_location.clone(), []);
+                world_space.add_entity(spark);
+                let spark_config = {
+                    'renderer': 'mask-renderer-bg',
+                    'start_scale': 1,
+                    'end_scale': .7,
+                    'start_opacity': 1,
+                    'end_opacity': .4,
+                    'start_rotation': direction.angle(),
+                    'end_rotation': direction.angle() + 3.14 * (Math.random() > .5 ? 1 : -1) * .5,
+                    'direction': Victor(1, 0),
+                    'velocity': 0,
+                    'acceleration': 0,
+                    'duration': 20,
+                };
+                world_space.entity_add_event_listener(spark, 'update', 'particle', spark_config);
+                spark.render_data['mask-renderer-bg'] = { image: './assets/bounce_spark.png', scale: spark_config.start_scale, opacity: spark_config.start_opacity, rotation: spark_config.start_rotation };
+            }
+            
             break;
         }
 
