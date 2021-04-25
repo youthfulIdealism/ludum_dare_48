@@ -104,6 +104,69 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
                             let sound = sim_space.asset_manager.get_sound('./assets/sounds/monster_pop_medium.wav');
                             sound.play();
                         }
+
+
+                        let flash = new Entity(enemy.location.clone(), []);
+                        world_space.add_entity(flash);
+                        let flash_config = {
+                            'renderer': 'image-renderer',
+                            'start_scale': 1.5,
+                            'end_scale': .8,
+                            'start_opacity': 1,
+                            'end_opacity': .1,
+                            'start_rotation': 0,
+                            'end_rotation': 0,
+                            'direction': Victor(1, 0),
+                            'velocity': 0,
+                            'acceleration': 0,
+                            'duration': 5 + Math.random() * 10,
+                        };
+                        world_space.entity_add_event_listener(flash, 'update', 'particle', flash_config);
+                        flash.render_data['image-renderer'] = { image: './assets/particle_flash.png', scale: flash_config.start_scale, opacity: flash_config.start_opacity };
+
+                        //permanent ichor marks
+                        for (let w = 0; w < 10; w++) {
+                            let ichor = new Entity(enemy.location.clone(), []);
+                            world_space.add_entity(ichor);
+                            let ichor_config = {
+                                'renderer': 'render-decals',
+                                'start_scale': .4 - Math.random() * .1,
+                                'end_scale': .01,
+                                'start_opacity': .4,
+                                'end_opacity': .1,
+                                'start_rotation': 0,
+                                'end_rotation': 0,
+                                'direction': damage_check_adder.clone().normalize().add(Victor(Math.random() - .5, Math.random() - .5)),
+                                'velocity': 8,
+                                'acceleration': 1 - .07,
+                                'duration': 5 + Math.random() * 10,
+                            };
+                            world_space.entity_add_event_listener(ichor, 'update', 'particle', ichor_config);
+                            ichor.render_data['render-decals'] = { image: './assets/ichor_particle.png', scale: ichor_config.start_scale, opacity: ichor_config.start_opacity };
+                        }
+
+                        //ichor explosion spheres
+                        for (let w = 0; w < 10; w++) {
+                            let ichor = new Entity(enemy.location.clone(), []);
+                            world_space.add_entity(ichor);
+                            let ichor_config = {
+                                'renderer': 'image-renderer',
+                                'start_scale': .8 - Math.random() * .1,
+                                'end_scale': .02,
+                                'start_opacity': .4,
+                                'end_opacity': .1,
+                                'start_rotation': 0,
+                                'end_rotation': 0,
+                                'direction': damage_check_adder.clone().normalize().add(Victor(Math.random() - .5, Math.random() - .5)),
+                                'velocity': 5,
+                                'acceleration': 1 - .07,
+                                'duration': 20 + Math.random() * 10,
+                            };
+                            world_space.entity_add_event_listener(ichor, 'update', 'particle', ichor_config);
+                            ichor.render_data['image-renderer'] = { image: './assets/ichor_particle.png', scale: ichor_config.start_scale, opacity: ichor_config.start_opacity };
+                        }
+
+
                     }
                     
                 }

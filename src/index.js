@@ -21,6 +21,7 @@ import './behaviors/behavior_spawn_spitting_goblin'
 import './behaviors/spitting_goblin'
 import './behaviors/projectile'
 import './behaviors/shield_goblin'
+import './behaviors/splat'
 
 import { RenderHealthBar } from './renderers/render_health_bar';
 import { RenderPlayerHealthBar } from './renderers/render_player_health_bar';

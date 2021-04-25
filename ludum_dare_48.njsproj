@@ -113,6 +113,7 @@
     <Content Include="src\behaviors\behavior_update_blarg.js" />
     <Content Include="src\behaviors\behavior_blarg.js" />
     <Content Include="src\behaviors\behavior_food_float.js" />
+    <Content Include="src\behaviors\splat.js" />
     <Content Include="src\behaviors\shield_goblin.js" />
     <Content Include="src\behaviors\projectile.js" />
     <Content Include="src\behaviors\spitting_goblin.js" />
