@@ -106,12 +106,14 @@
     <Content Include="src\behaviors\behavior_bell.js" />
     <Content Include="src\behaviors\behavior_spawn_food.js" />
     <Content Include="src\behaviors\behavior_spawn_big_goblin.js" />
+    <Content Include="src\behaviors\behavior_spawn_shield_goblin.js" />
     <Content Include="src\behaviors\behavior_spawn_spitting_goblin.js" />
     <Content Include="src\behaviors\behavior_spawn_goblin.js" />
     <Content Include="src\behaviors\behavior_immune_time.js" />
     <Content Include="src\behaviors\behavior_update_blarg.js" />
     <Content Include="src\behaviors\behavior_blarg.js" />
     <Content Include="src\behaviors\behavior_food_float.js" />
+    <Content Include="src\behaviors\shield_goblin.js" />
     <Content Include="src\behaviors\projectile.js" />
     <Content Include="src\behaviors\spitting_goblin.js" />
     <Content Include="src\behaviors\hit_by_charging_goblin.js" />

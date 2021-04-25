@@ -15,7 +15,7 @@ let behavior_blarg = new Behavior('blarg', (entity, sim_space, parameters, memor
         world_space.add_entity(blarg);
         world_space.entity_add_event_listener(blarg, 'update', 'update_blarg', { size: entity.memory.size, target: world_location });
         blarg.render_data['mask-renderer-bg'] = { image: './assets/blarg.png' };
-        blarg.render_data['render-decals'] = { image: './assets/blarg.png' };
+        //blarg.render_data['render-decals'] = { image: './assets/blarg.png' };
     }
 
 }, {});

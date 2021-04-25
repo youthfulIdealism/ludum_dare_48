@@ -18,7 +18,7 @@ let spitting_goblin = new Behavior('spitting_goblin', (entity, sim_space, parame
         world_space.add_entity(projectile);
         projectile.render_data['image-renderer'] = { image: './assets/projectile.png' };
         projectile.render_data['render-health-bar'] = {};
-        projectile.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: .3, offset_y: 40 };
+        projectile.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: .3, offset_y: 50 };
         world_space.entity_add_event_listener(projectile, 'update', 'projectile', { speed: 18, range: 1000, direction: player.location.clone().subtract(entity.location).normalize() });
         world_space.entity_add_event_listener(projectile, 'update', 'check_player_impact', {});
 
