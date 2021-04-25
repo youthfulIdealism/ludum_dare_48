@@ -28,7 +28,7 @@ export class RenderPlayerHealthBar extends Renderer {
 
             //draw health
             for (let q = 0; q < health; q++) {
-                renderer.fillStyle = 'green';
+                renderer.fillStyle = 'red';
                 renderer.fillRect(2 + slot_width * q, 2, slot_width - 4, 30 - 4);
             }
 

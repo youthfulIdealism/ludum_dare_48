@@ -94,6 +94,9 @@ let behavior_bell = new Behavior('bell', (entity, sim_space, parameters, memory,
     current_music.play();
     current_music.loop = true;
 
+    let sound_bell = sim_space.asset_manager.get_sound('./assets/sounds/bell.wav');
+    sound_bell.play();
+
     let sound = sim_space.asset_manager.get_sound('./assets/sounds/spawn_drone.wav');
     sound.play();
 
