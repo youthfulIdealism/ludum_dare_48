@@ -31,14 +31,45 @@ import { RenderDecals } from './renderers/render_decals';
 import * as Victor from 'victor'
 const world_scale = 2;
 
-window.vue = new Vue({
+let vue = new Vue({
     el: '#main',
     components: {},
-    data: {},
+    data: {
+        text_segments: ['a'],
+    },
     computed: {
     },
     methods: {}
 });
+window.vue = vue;
+
+window.current_text = [
+    'The cursed bell binds the holy hamburger',
+    'Destroy the bell'
+]
+
+function update_text_loop() {
+    let current_text = window.current_text;
+    if (vue.text_segments.length > current_text.length) {
+        vue.text_segments = [];
+    }
+
+    while (vue.text_segments.length < current_text.length) {
+        vue.text_segments.push('');
+    }
+
+    for (let q = 0; q < current_text.length; q++) {
+        let segment = current_text[q]
+        if (!segment.startsWith(vue.text_segments[q])) {
+            vue.text_segments.splice(q, 1, '')
+        }
+        if (vue.text_segments[q].length < segment.length) {
+            vue.$set(vue.text_segments, q, vue.text_segments[q] + segment[vue.text_segments[q].length]);
+        }
+    }
+    window.setTimeout(update_text_loop, 200 * Math.random())
+}
+window.setTimeout(update_text_loop, 200 * Math.random())
 
 function random(max) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -378,12 +409,13 @@ window.valid_min_y = 1800 - 1080 / 2;
 window.valid_max_x = 1800 + 1080 / 2;
 window.valid_max_y = 1800 + 1080 / 2;
 
-let bell = new Entity(Victor(1800, 1800), ['bell']);
+let bell = new Entity(Victor(1800, 1800), ['bell', 'enemy']);
 world_space.add_entity(bell);
 world_space.entity_add_event_listener(bell, 'update', 'bell', {});
 world_space.entity_add_event_listener(bell, 'update', 'manage_food', {});
 bell.render_data[image_renderer_id] = { image: './assets/bell_0.png' };
 bell.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: 2, offset_y: 25 };
+bell.render_data['render-health-bar'] = {};
 
 window.in_bounds = function (location) {
     return location.x >= window.valid_min_x &&

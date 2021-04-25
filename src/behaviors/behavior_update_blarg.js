@@ -90,6 +90,7 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
                 if (is_damage_tick) {
                     if (enemy.memory.armor === undefined || parameters.size >= enemy.memory.armor) {
                         enemy.memory.health--;
+                        enemy.memory.hit = true;
                     }
 
                     if (enemy.memory.health <= 0) {
