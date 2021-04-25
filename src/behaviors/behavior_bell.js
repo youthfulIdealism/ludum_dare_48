@@ -3,7 +3,7 @@ import * as Victor from 'victor'
 
 let current_wave_index = 0;
 let waves = [
-    /*{
+    {
         goblins: 3,
     },
     {
@@ -33,7 +33,7 @@ let waves = [
         shield_goblins: 4,
         spitting_goblins: 5,
         big_goblins: 4,
-    },// DO NOT ADD MORE WAVES -- It'll break the music.*/
+    },// DO NOT ADD MORE WAVES -- It'll break the music.
 ]
 
 let music_paths = [

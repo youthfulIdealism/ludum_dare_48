@@ -13,6 +13,20 @@ let behavior_holy_hamburger = new Behavior('holy_hamburger', (entity, sim_space,
 
     if (entity.render_data['image-renderer'].offset_y < -30) {
         entity.render_data['image-renderer'].offset_y += 40 * context.tpf;
+
+        let particle_sparkle = new Entity(entity.location.clone().add(Victor((Math.random() - .5) * 120, (Math.random() - .5) * 10), []));
+        world_space.add_entity(particle_sparkle);
+        world_space.entity_add_event_listener(particle_sparkle, 'update', 'particle', {
+            'renderer': 'image-renderer',
+            'start_scale': 2,
+            'end_scale': .1,
+            'start_opacity': .5,
+            'end_opacity': .01,
+            'duration': 30 + Math.random() * 20,
+            'direction': Victor(0, -1),
+            'velocity': 4 + (1 + Math.random()) * .1,
+        });
+        particle_sparkle.render_data['image-renderer'] = { image: './assets/particle_sparkle.png', scale: .3, opacity: .3 };
     } else {
         if (!has_squashed_player) {
             let squash_sound = sim_space.asset_manager.get_sound('./assets/sounds/player_squish.wav');
