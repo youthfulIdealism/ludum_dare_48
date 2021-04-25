@@ -42,6 +42,12 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
     //keep player from moving very fast
     player.event_listeners.update.wasd.speed = 2;
 
+    //player knockback
+    let potential_location = player.location.clone().add(direction.clone().normalize().multiply(Victor(-tpf, -tpf)).multiply(Victor(4.5 * parameters.size, 4.5 * parameters.size)))
+    if (window.in_bounds(potential_location)) {
+        player.location = potential_location;
+    }
+
     //tick down until damage time
     if (parameters.time_until_damage_tick === undefined) { parameters.time_until_damage_tick = 0; }
     if (parameters.damage_ticks_remaining === undefined) { parameters.damage_ticks_remaining = parameters.size; }
