@@ -23,6 +23,8 @@ import './behaviors/projectile'
 import './behaviors/shield_goblin'
 import './behaviors/splat'
 import './behaviors/behavior_shaddup'
+import './behaviors/behavior_holy_hamburger'
+
 
 import { RenderHealthBar } from './renderers/render_health_bar';
 import { RenderPlayerHealthBar } from './renderers/render_player_health_bar';
@@ -44,8 +46,8 @@ let vue = new Vue({
 window.vue = vue;
 
 window.current_text = [
-    'The cursed bell binds the holy hamburger',
-    'Destroy the bell'
+    'The cursed bell binds the holy hamburger.',
+    'Destroy the bell!'
 ]
 
 function update_text_loop() {

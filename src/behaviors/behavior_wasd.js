@@ -36,12 +36,12 @@ let behavior_wasd = new Behavior('wasd', (entity, sim_space, parameters, memory,
         
 
         let potential_location = entity.location.clone().add(direction.normalize().multiply(Victor(tpf, tpf)).multiply(Victor(parameters.speed, parameters.speed)))
-        if (window.in_bounds(potential_location)) {
+        if (window.in_bounds(potential_location) && !window.freeze_player) {
             entity.location = potential_location;
         }
 
         parameters.time_until_step_sound -= tpf;
-        if (parameters.time_until_step_sound <= 0) {
+        if (parameters.time_until_step_sound <= 0 && !window.freeze_player) {
             parameters.time_until_step_sound = step_sound_time + Math.random() * step_sound_variance;
             let sound = sim_space.asset_manager.get_sound(sounds_by_size[entity.memory.size][step_accum % sounds_by_size[entity.memory.size].length]);
             sound.play();

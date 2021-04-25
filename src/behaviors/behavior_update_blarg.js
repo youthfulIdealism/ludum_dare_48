@@ -96,6 +96,26 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
                     if (enemy.memory.health <= 0) {
                         sim_space.remove_entity(enemy);
 
+                        if (enemy.tags.includes('bell')) {
+                            window.shake.shake(1200, 5);
+                            let sound_break_bell = sim_space.asset_manager.get_sound('./assets/sounds/bell_break.wav');
+                            sound_break_bell.play();
+
+                            let sound_bell = sim_space.asset_manager.get_sound('./assets/sounds/bell.wav');
+                            sound_bell.play();
+
+                            let holy_hamburger = new Entity(player.location.clone(), ['holy_hamburger']);
+                            world_space.add_entity(holy_hamburger);
+                            holy_hamburger.render_data['image-renderer'] = { image: './assets/enourmous_burger.png', offset_y: -2080 };
+                            holy_hamburger.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: 4, offset_y: 5 };
+                            world_space.entity_add_event_listener(holy_hamburger, 'update', 'holy_hamburger', {});
+                            window.freeze_player = true;
+
+                            parameters.time_until_damage_tick = 0;
+                            parameters.damage_ticks_remaining = 0;
+                        }
+
+
                         let ichor_size = 0;
                         if (enemy.tags.includes('small')) {
                             let sound = sim_space.asset_manager.get_sound('./assets/sounds/monster_pop_small.wav');

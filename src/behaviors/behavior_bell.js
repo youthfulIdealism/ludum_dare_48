@@ -3,7 +3,7 @@ import * as Victor from 'victor'
 
 let current_wave_index = 0;
 let waves = [
-    {
+    /*{
         goblins: 3,
     },
     {
@@ -33,7 +33,7 @@ let waves = [
         shield_goblins: 4,
         spitting_goblins: 5,
         big_goblins: 4,
-    },// DO NOT ADD MORE WAVES -- It'll break the music.
+    },// DO NOT ADD MORE WAVES -- It'll break the music.*/
 ]
 
 let music_paths = [
@@ -69,12 +69,11 @@ let behavior_bell = new Behavior('bell', (entity, sim_space, parameters, memory,
     queued_music = music_interlude_path;
 
     entity.memory.armor = 5;
-    entity.memory.max_health = waves.length;
-    entity.memory.health = waves.length - current_wave_index;
+    entity.memory.max_health = waves.length + 1;
+    entity.memory.health = waves.length + 1 - current_wave_index;
 
     if (remaining_enemies.length > 1) { queued_music = music_paths[current_wave_index]; return false; }
     if (enemy_spawners.length > 0) { queued_music = music_paths[current_wave_index]; return false; }
-    if (current_wave_index >= waves.length) { return false; }
     let current_wave = waves[current_wave_index];
 
     if (current_wave_index > 0) { window.current_text = ['The bell is vulnerable!'];}
