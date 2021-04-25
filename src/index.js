@@ -430,6 +430,14 @@ function loop(timestamp) {
 
     let tpf = progress / 64;
 
+    if (player.memory.health <= 0) {
+        tpf *= .05;
+        window.current_text = [
+            'Game Over',
+            'Refresh to try again'
+        ]
+    }
+
     world_space.update(tpf);
     if (input_manager) { input_manager.update(); }
     
