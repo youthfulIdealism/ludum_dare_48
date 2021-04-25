@@ -22,6 +22,7 @@ import './behaviors/spitting_goblin'
 import './behaviors/projectile'
 import './behaviors/shield_goblin'
 import './behaviors/splat'
+import './behaviors/behavior_shaddup'
 
 import { RenderHealthBar } from './renderers/render_health_bar';
 import { RenderPlayerHealthBar } from './renderers/render_player_health_bar';
@@ -329,7 +330,8 @@ world_space.entity_add_event_listener(player, 'update', 'blarg', {});
 world_space.entity_add_event_listener(player, 'update', 'immune_time', {});
 world_space.entity_add_event_listener(player, 'click', 'log', { text: 'hi there' });
 world_space.entity_add_event_listener(player, 'collide', 'eat', { amount: 1 });
-world_space.entity_add_event_listener(player, 'collide', 'hit_by_charging_goblin', { });
+world_space.entity_add_event_listener(player, 'collide', 'hit_by_charging_goblin', {});
+world_space.entity_add_event_listener(player, 'remove_entity', 'shaddup', {});
 player.render_data[render_animation_id] = {};
 player.render_data[render_player_bar_id] = {};
 player.render_data['render_shadow'] = { image: './assets/shadow.png', opacity: .3, scale: .5, offset_y: 45 };
