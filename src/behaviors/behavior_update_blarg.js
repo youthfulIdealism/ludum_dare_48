@@ -93,16 +93,18 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
                     if (enemy.memory.health <= 0) {
                         sim_space.remove_entity(enemy);
 
-
+                        let ichor_size = 0;
                         if (enemy.tags.includes('small')) {
                             let sound = sim_space.asset_manager.get_sound('./assets/sounds/monster_pop_small.wav');
                             sound.play();
                         } else if (enemy.tags.includes('big')) {
                             let sound = sim_space.asset_manager.get_sound('./assets/sounds/monster_pop_big.wav');
                             sound.play();
+                            ichor_size = 2;
                         } else {
                             let sound = sim_space.asset_manager.get_sound('./assets/sounds/monster_pop_medium.wav');
                             sound.play();
+                            ichor_size = 1;
                         }
 
 
@@ -125,45 +127,45 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
                         flash.render_data['image-renderer'] = { image: './assets/particle_flash.png', scale: flash_config.start_scale, opacity: flash_config.start_opacity };
 
                         //permanent ichor marks
-                        for (let w = 0; w < 10; w++) {
-                            let ichor = new Entity(enemy.location.clone(), []);
+                        for (let w = 0; w < 10 + ichor_size * 4; w++) {
+                            let ichor = new Entity(enemy.location.clone().add(Victor(Math.random() - .5, Math.random() - .5).multiply(Victor(ichor_size * 4, ichor_size * 4))), []);
                             world_space.add_entity(ichor);
                             let ichor_config = {
                                 'renderer': 'render-decals',
-                                'start_scale': .4 - Math.random() * .1,
+                                'start_scale': .4 - Math.random() * .1 + ichor_size * .1,
                                 'end_scale': .01,
                                 'start_opacity': .4,
                                 'end_opacity': .1,
                                 'start_rotation': 0,
                                 'end_rotation': 0,
-                                'direction': damage_check_adder.clone().normalize().add(Victor(Math.random() - .5, Math.random() - .5)),
-                                'velocity': 8,
-                                'acceleration': 1 - .07,
-                                'duration': 5 + Math.random() * 10,
+                                //'direction': damage_check_adder.clone().normalize().add(Victor(Math.random() - .5 * 2, Math.random() - .5 * 2)),
+                                'direction': Victor(Math.random() - .5, Math.random() - .5),
+                                'velocity': 12,
+                                'acceleration': 1 - .045,
+                                'duration': 10 + Math.random() * 10 + ichor_size * 4,
                             };
                             world_space.entity_add_event_listener(ichor, 'update', 'particle', ichor_config);
                             ichor.render_data['render-decals'] = { image: './assets/ichor_particle.png', scale: ichor_config.start_scale, opacity: ichor_config.start_opacity };
                         }
 
-                        //ichor explosion spheres
+                        //smoke
                         for (let w = 0; w < 10; w++) {
-                            let ichor = new Entity(enemy.location.clone(), []);
-                            world_space.add_entity(ichor);
-                            let ichor_config = {
+                            let random_rotation = Math.random() * Math.PI;
+                            let particle_big_smoke = new Entity(enemy.location.clone().add(Victor((Math.random() - .5) * 30), 0), []);
+                            world_space.add_entity(particle_big_smoke);
+                            world_space.entity_add_event_listener(particle_big_smoke, 'update', 'particle', {
                                 'renderer': 'image-renderer',
-                                'start_scale': .8 - Math.random() * .1,
-                                'end_scale': .02,
-                                'start_opacity': .4,
-                                'end_opacity': .1,
-                                'start_rotation': 0,
-                                'end_rotation': 0,
-                                'direction': damage_check_adder.clone().normalize().add(Victor(Math.random() - .5, Math.random() - .5)),
-                                'velocity': 5,
-                                'acceleration': 1 - .07,
-                                'duration': 20 + Math.random() * 10,
-                            };
-                            world_space.entity_add_event_listener(ichor, 'update', 'particle', ichor_config);
-                            ichor.render_data['image-renderer'] = { image: './assets/ichor_particle.png', scale: ichor_config.start_scale, opacity: ichor_config.start_opacity };
+                                'start_scale': .8,
+                                'end_scale': 1,
+                                'start_opacity': .5,
+                                'end_opacity': .2,
+                                'start_rotation': random_rotation,
+                                'end_rotation': random_rotation,
+                                'duration': 60 + Math.random() * 30,
+                                'direction': Victor(0, -1),
+                                'velocity': 1 - Math.random(),
+                            });
+                            particle_big_smoke.render_data['image-renderer'] = { image: './assets/smoke_particle.png', 'scale': .8 };
                         }
 
 
@@ -174,23 +176,23 @@ let behavior_update_blarg = new Behavior('update_blarg', (entity, sim_space, par
         }
         if (is_blocked) {
 
-            for (let q = 0; q < 4; q++) {
+            for (let q = 0; q < 2; q++) {
                 let particle = new Entity(damage_check_location.clone(), []);
                 world_space.add_entity(particle);
                 world_space.entity_add_event_listener(particle, 'update', 'particle', {
                     'renderer': 'mask-renderer-bg',
-                    'start_scale': .7,
-                    'end_scale': .4,
+                    'start_scale': .4 * parameters.size,
+                    'end_scale': .1 * parameters.size,
                     'start_opacity': 1,
                     'end_opacity': 1,
                     'start_rotation': 0,
-                    'end_rotation': 30 * (Math.random() > .5 ? 1 : -1) * Math.random(),
-                    'direction': damage_check_adder.clone().normalize().multiply(Victor(-1, -1)).rotateBy((Math.random() - .5) * 2),
-                    'velocity': 7,
+                    'end_rotation': 6.28 * (Math.random() > .5 ? 1 : -1) * (.5 + Math.random() * .5),
+                    'direction': damage_check_adder.clone().normalize().multiply(Victor(-1, -1)).add(Victor(Math.random() - .5, Math.random() - .5)),
+                    'velocity': 5,
                     'acceleration': 1 - .07,
-                    'duration': 25 + Math.random() * 50,
+                    'duration': 20 + Math.random() * 25,
                 });
-                particle.render_data['mask-renderer-bg'] = { image: './assets/triangle_particle.png' };
+                particle.render_data['mask-renderer-bg'] = { image: './assets/triangle_particle_soft.png' };
             }
             break;
         }
