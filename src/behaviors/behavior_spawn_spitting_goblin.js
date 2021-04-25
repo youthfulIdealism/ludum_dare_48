@@ -31,7 +31,7 @@ let spawn_spitting_goblin = new Behavior('spawn_spitting_goblin', (entity, sim_s
         let sound = sim_space.asset_manager.get_sound('./assets/sounds/spawn_squelch.wav');
         sound.play();
 
-        let spitting_goblin = new Entity(parameters.location, ['goblin', 'enemy', 'small']);
+        let spitting_goblin = new Entity(parameters.location, ['goblin', 'enemy', 'small', 'spitter']);
         world_space.add_entity(spitting_goblin);
         spitting_goblin.memory.health = 1;
         spitting_goblin.memory.max_health = 1;
