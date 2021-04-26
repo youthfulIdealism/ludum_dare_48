@@ -22,10 +22,10 @@ let behavior_wasd = new Behavior('wasd', (entity, sim_space, parameters, memory,
 
     let input_manager = sim_space.input_manager;
 
-    if (input_manager.is_key_down('w')) { is_moving = true; direction.add(Victor(0, -1)); }
-    if (input_manager.is_key_down('s')) { is_moving = true; direction.add(Victor(0, 1)); }
-    if (input_manager.is_key_down('a')) { is_moving = true; direction.add(Victor(-1, 0)); entity.render_data['render-animation'].scale_x = -1; }
-    if (input_manager.is_key_down('d')) { is_moving = true; direction.add(Victor(1, 0)); entity.render_data['render-animation'].scale_x = 1; }
+    if (input_manager.is_key_down('w') || input_manager.is_key_down('ArrowUp')) { is_moving = true; direction.add(Victor(0, -1)); }
+    if (input_manager.is_key_down('s') || input_manager.is_key_down('ArrowDown')) { is_moving = true; direction.add(Victor(0, 1)); }
+    if (input_manager.is_key_down('a') || input_manager.is_key_down('ArrowLeft')) { is_moving = true; direction.add(Victor(-1, 0)); entity.render_data['render-animation'].scale_x = -1; }
+    if (input_manager.is_key_down('d') || input_manager.is_key_down('ArrowRight')) { is_moving = true; direction.add(Victor(1, 0)); entity.render_data['render-animation'].scale_x = 1; }
     
     if (is_moving) {
         if (entity.memory.animation !== entity.memory.animations[`run_${entity.memory.size}`] && entity.memory.animations[`run_${entity.memory.size}`]) {
